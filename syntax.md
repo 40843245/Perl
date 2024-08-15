@@ -149,6 +149,20 @@ Hello World
 This is Perl
 ```
 
+> [!NOTE]
+> Other style of `print` function is NOT to use `()`.
+>
+> Such as
+>
+> ```
+> print("Hello World");
+> ```
+>
+> is equivalent to
+>
+> ```
+> print "Hello World" ;
+> ```
 
 > [!CAUTION]
 > There are **NO** built-in function `println()`.
@@ -162,3 +176,40 @@ Wrong Example:
 + Wrong Example 2:
 
 ![image](https://github.com/user-attachments/assets/fbb3001b-5bef-4269-b872-54fa2981c282)
+
+### comment
+#### single line comment
+A single line comment must start with `#`.
+
++ Example 1:
+
+```
+# This is a single line comment
+```
+
+will output nothing in Perl.
+
+#### multi-line comment
+A multi-line comment must start with a line `=begin comment` and ends with a line `=cut`
+
++ Example 1:
+
+```
+print "Hello World\n";
+
+=begin comment
+This is all part of multiline comment.
+You can use as many lines as you like
+These comments will be ignored by the 
+compiler until the next =cut is encountered.
+=cut
+
+print "This is Perl\n";
+```
+
+will output
+
+```
+Hello World
+This is Perl
+```

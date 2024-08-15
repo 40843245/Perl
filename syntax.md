@@ -150,7 +150,7 @@ This is Perl
 ```
 
 > [!NOTE]
-> Other style of `print` function is NOT to use `()`.
+> Other style of `print` function is NOT to wrapp the value for print with `()`.
 >
 > Such as
 >
@@ -189,6 +189,18 @@ A single line comment must start with `#`.
 
 will output nothing in Perl.
 
++ Example 2:
+
+```
+print "Hello World\n"; # is equivalent to print("Hello World\n");
+```
+
+will output
+
+```
+Hello World
+```
+
 #### multi-line comment
 A multi-line comment must start with a line `=begin comment` and ends with a line `=cut`
 
@@ -212,4 +224,51 @@ will output
 ```
 Hello World
 This is Perl
+```
+
+### block 
+A block is made up of statements wrapped in curly braces `{}`.
+
+> [!NOTE]
+> Any variable declared inside a block has its own scope.
+
++ Example 1:
+
+```
+{
+     $a = 1;
+     $a = $a + 1;
+     print($a);
+}
+```
+
+will output 
+
+```
+2
+```
+
+> [!CAUTION]
+> Assignment into a variable in a block will override the value of a variable in outer scope if they have same variable name. (See Example 2.)
+
++ Example 2:
+
+```
+$a = "Hello";
+{
+     $a = 1; # override the value of `$a` on outer scope.
+     $a = $a + 1;
+     print($a);
+     print("\n");
+}
+
+print($a); # someone may think it will print "Hello". However, it prints 2.
+print("\n");
+```
+
+will output
+
+```
+2
+2
 ```

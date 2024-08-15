@@ -1,0 +1,164 @@
+# Perl
+## syntax
+### variable 
+> [!NOTE]
+> A variable is defined iff its it is first assigned.
+
+> [!NOTE]
+> To access a variable, it must start with `$` sign and followed by a varible name. Like variable in PHP.
+>
+> Such as
+>
+> `$x=10`
+
+A variable must start with identifier.
+
+An identifier must 
++ consist of uppercase alphabet, lowercase alphabet, digit, and underscore.
++ start with uppercase alphabet and lowercase alphabet.
+
+> [!NOTE]
+> A variable is case-sensitive. Such as `Var1` and `var1` are NOT same variables.
+
++ Example 1:
+
+```
+$x=10;
+```
+
+It will define a variable whose name is `x` and assign the value `10` into the variable `x`.
+
+### assignment 
+
++ Example 1:
+  
+```
+$x=10;
+```
+
+It will define a variable whose name is `x` and assign the value `10` into the variable `x`.
+
+### expression
+> [!NOTE]
+> In Perl, an expression refers anything that returns a value.
+>
+> Such as
+>
+> `$x+10`
+
+> [!NOTE]
+> One expression can consist of one or many expressions.
+> 
+
++ Example 1:
+
+```
+$x=10;
+$y=$x+5;
+```
+
+In the statement `$y=$x+5;`,`$x+5` will return `$x` plus `5`. Thus, `$x+5` is an expression.
+
+### statement
+
+> [!NOTE]
+> In Perl, a statement refers the smallest unit that will be executed.
+>
+> A statement can consist of one expression or one expression with assignment operator. (See `Perl`->`syntax`->`assginment` section).
+
+> [!IMPORTANT]
+> A statement must end with a semicolon `;`. Like it in PHP.
+
++ Example 1:
+
+```
+$x=10;
+```
+
+It is a statement. 
+
++ Example 2:
+
+```
+$x=10;
+$y=$x+5;
+```
+
+`$y=$x+5;` is also a statement. 
+
+First, it access the value of variable whose name is `x`. Then it plus `5`. Finally, it assignment the value into the variable whose name is `y`.
+
+### print 
+#### print() function
+Use `print()` function to print the value of an expression.
+
+> [!CAUTION]
+> The `print()` function does NOT print a new line after print the value.
+>
+> To print a new line after print the value, please ~~first concatenate the value and new line (`"\n"`) then use `print()` function. Or~~ simply call `print("\n")` after using `print()` function.
+
++ Example 1:
+
+```
+print("Hello World");
+print("This is Perl");
+```
+
+will output
+
+```
+Hello WorldThis is Perl
+```
+
+***NOT***
+
+```
+Hello World
+This is Perl
+```
+
++ Example 2:
+
+```
+print("Hello World");
+print("\n");
+print("This is Perl");
+print("\n");
+```
+
+will output
+
+```
+Hello World
+This is Perl
+```
+
++ Example 3:
+
+```
+print("Hello World");
+print("\n");
+print("This is Perl");
+print("\n");
+```
+
+will output
+
+```
+Hello World
+This is Perl
+```
+
+
+> [!CAUTION]
+> There are **NO** built-in function `println()`.
+
+Wrong Example:
+
++ Wrong Example 1:
+
+![image](https://github.com/user-attachments/assets/430d419a-80ec-46f9-9401-7048a4b46a88)
+
++ Wrong Example 2:
+
+![image](https://github.com/user-attachments/assets/fbb3001b-5bef-4269-b872-54fa2981c282)

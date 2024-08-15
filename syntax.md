@@ -16,6 +16,7 @@ A variable must start with identifier.
 An identifier must 
 + consist of uppercase alphabet, lowercase alphabet, digit, and underscore.
 + start with uppercase alphabet and lowercase alphabet.
++ NOT be a keyword.
 
 > [!NOTE]
 > A variable is case-sensitive. Such as `Var1` and `var1` are NOT same variables.
@@ -36,6 +37,10 @@ It will define a variable whose name is `x` and assign the value `10` into the v
 > By default, Perl does NOT use strict mode. In non-strict mode, some errors will be thrown instead ignoring.
 >
 > Based on this, to ensure all errors that will be thrown, use `strict` mode at begin through the statement `use strict;`.
+
+##### declaring global variables
+> [!NOTE]
+> By default, it declares a global variable. To declare a local variable, use `my` keyword before the variable.
 
 + Example 1: in non-strict mode.
 
@@ -98,6 +103,13 @@ will throw a runtime error in ideone[^1]
 
 ![image](https://github.com/user-attachments/assets/d36501d5-2620-4f95-a109-a3c77db213f3)
 
+See [block section](#block).
+
+#### declaring local variables
+To declare a local variable, use keyword `my` before the variable.
+
+See [block section](#block).
+
 ### assignment 
 
 + Example 1:
@@ -107,6 +119,76 @@ $x=10;
 ```
 
 It will define a variable whose name is `x` and assign the value `10` into the variable `x`.
+
+### block 
+A block is made up of statements wrapped in curly braces `{}`.
+
+> [!NOTE]
+> Any variable declared inside a block has its own scope.
+
++ Example 1:
+
+```
+{
+     $a = 1;
+     $a = $a + 1;
+     print($a);
+}
+```
+
+will output 
+
+```
+2
+```
+
+> [!CAUTION]
+> Assignment into a variable in a block will override the value of a variable in outer scope if they have same variable name. (See Example 2.)
+
++ Example 2:
+
+```
+$a = "Hello";
+{
+     $a = 1; # override the value of `$a` on outer scope since the variable `$a` is declared globally.
+     $a = $a + 1;
+     print($a);
+     print("\n");
+}
+
+print($a); # someone may think it will print "Hello". However, it prints 2.
+print("\n");
+```
+
+will output
+
+```
+2
+2
+```
+
++ Example 3:
+
+```
+$a = "Hello";
+{
+     my $a = 1; # NOT override the value of `$a` on outer scope since the variable `$a` is declared locally with `my` keyword.
+     $a = $a + 1;
+     print($a);
+     print("\n");
+}
+
+print($a); # someone may think it will print "Hello". However, it prints 2.
+print("\n");
+```
+
+will output
+
+```
+2
+Hello
+```
+
 
 ### expression
 > [!NOTE]
@@ -134,7 +216,7 @@ In the statement `$y=$x+5;`,`$x+5` will return `$x` plus `5`. Thus, `$x+5` is an
 > [!NOTE]
 > In Perl, a statement refers the smallest unit that will be executed.
 >
-> A statement can consist of one expression or one expression with assignment operator. (See `Perl`->`syntax`->`assginment` section).
+> A statement can consist of one expression or one expression with assignment operator. (See [`Perl`->`syntax`->`assginment`](#assginment) section).
 
 > [!IMPORTANT]
 > A statement must end with a semicolon `;`. Like it in PHP.
@@ -294,53 +376,6 @@ will output
 ```
 Hello World
 This is Perl
-```
-
-### block 
-A block is made up of statements wrapped in curly braces `{}`.
-
-> [!NOTE]
-> Any variable declared inside a block has its own scope.
-
-+ Example 1:
-
-```
-{
-     $a = 1;
-     $a = $a + 1;
-     print($a);
-}
-```
-
-will output 
-
-```
-2
-```
-
-> [!CAUTION]
-> Assignment into a variable in a block will override the value of a variable in outer scope if they have same variable name. (See Example 2.)
-
-+ Example 2:
-
-```
-$a = "Hello";
-{
-     $a = 1; # override the value of `$a` on outer scope.
-     $a = $a + 1;
-     print($a);
-     print("\n");
-}
-
-print($a); # someone may think it will print "Hello". However, it prints 2.
-print("\n");
-```
-
-will output
-
-```
-2
-2
 ```
 
 ### data type

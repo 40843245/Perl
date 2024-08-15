@@ -28,6 +28,76 @@ $x=10;
 
 It will define a variable whose name is `x` and assign the value `10` into the variable `x`.
 
+#### declaring variables
+> [!NOTE]
+> In Perl, it will make a mistake that access a variable without (or before) defining it.
+
+> [!CAUTION]
+> By default, Perl does NOT use strict mode. In non-strict mode, some errors will be thrown instead ignoring.
+>
+> Based on this, to ensure all errors that will be thrown, use `strict` mode at begin through the statement `use strict;`.
+
++ Example 1: in non-strict mode.
+
+```
+$x=10;
+$y=20;
+print("The value of x:");
+print("\n");
+print($x1);
+print("The value of y:");
+print("\n");
+print($y);
+```
+
+will output
+
+```
+The value of x:
+The value of y:
+20
+```
+
+***NOT***
+
+throwing an error.
+
++ Example 2: in strict mode.
+
+```
+use strict;
+my $x=10;
+$y=20;
+print("The value of x:");
+print("\n");
+print($x1);
+print("The value of y:");
+print("\n");
+print($y);
+```
+
+will throw a runtime error in ideone[^1]
+
+![image](https://github.com/user-attachments/assets/d9250a33-b053-4c43-8be4-ef8ee514a466)
+
++ Example 3:
+
+```
+use strict;
+$x=10;
+$y=20;
+print("The value of x:");
+print("\n");
+print($x1);
+print("The value of y:");
+print("\n");
+print($y);
+```
+
+will throw a runtime error in ideone[^1]
+
+![image](https://github.com/user-attachments/assets/d36501d5-2620-4f95-a109-a3c77db213f3)
+
 ### assignment 
 
 + Example 1:
@@ -95,7 +165,7 @@ Use `print()` function to print the value of an expression.
 > [!CAUTION]
 > The `print()` function does NOT print a new line after print the value.
 >
-> To print a new line after print the value, please ~~first concatenate the value and new line (`"\n"`) then use `print()` function. Or~~ simply call `print("\n")` after using `print()` function.
+> To print a new line after print the value, please first concatenate the value and new line (`"\n"`) then use `print()` function. Or simply call `print("\n")` after using `print()` function.
 
 + Example 1:
 
@@ -272,3 +342,48 @@ will output
 2
 2
 ```
+
+### data type
+#### string
+A string can be wrapped with double quote `""` or single quote `''`.
+
+However, they are NOT equivalent. (See Example 1.)
+
++ Example 1:
+
+```
+$a = "Hello";
+$b = 'Hello';
+$c = 2;
+print($a);
+print("\n");
+print($b);
+print('\n');
+print(c);
+print("\n");
+```
+
+will output
+
+```
+Hello
+Hello\n
+```
+
+##### concatenation
+A dot `.` indicates string concatenation between two strings. Like it in PHP.
+
++ Example 1:
+
+```
+$color = "red";
+print "Your favorite color is " .$color ."\n";
+```
+
+will output
+
+```
+Your favorite color is red
+```
+
+[^1]: [ideone online IDE](https://ideone.com)

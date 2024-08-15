@@ -216,7 +216,7 @@ In the statement `$y=$x+5;`,`$x+5` will return `$x` plus `5`. Thus, `$x+5` is an
 > [!NOTE]
 > In Perl, a statement refers the smallest unit that will be executed.
 >
-> A statement can consist of one expression or one expression with assignment operator. (See [`Perl`->`syntax`->`assginment`](#assginment) section).
+> A statement can consist of one expression or one expression with assignment operator. (See [`Perl`->`syntax`->`assginment`](#assignment) section).
 
 > [!IMPORTANT]
 > A statement must end with a semicolon `;`. Like it in PHP.

@@ -37,6 +37,8 @@ It will define a variable whose name is `x` and assign the value `10` into the v
 > By default, Perl does NOT use strict mode. In non-strict mode, some errors will be thrown instead ignoring.
 >
 > Based on this, to ensure all errors that will be thrown, use `strict` mode at begin through the statement `use strict;`.
+>
+> See [strict mode](#strict-mode)
 
 ##### declaring global variables
 > [!NOTE]
@@ -405,7 +407,7 @@ Hello
 Hello\n
 ```
 
-##### concatenation
+##### concatenation of two strings
 A dot `.` indicates string concatenation between two strings. Like it in PHP.
 
 + Example 1:
@@ -421,4 +423,51 @@ will output
 Your favorite color is red
 ```
 
+##### embeding a variable in string
+Like it in PHP. One can embed a variable in string directly through typing `$` symbol followed by the variable name such as `"$amount"`.
+
++ Example 1:
+
+```
+use strict;
+use warnings;
+
+my $amount = 20;
+my $s = "The amount is $amount\n";
+print($s);
+```
+
+will output
+
+```
+The amount is 20
+```
+
+### mode
+#### strict mode
+
+> [!CAUTION]
+> By default, Perl does NOT use strict mode. In non-strict mode, some errors will be thrown instead ignoring.
+>
+> Based on this, to ensure all errors that will be thrown, use `strict` mode at begin through the statement `use strict;`.
+
+#### warnings mode
+> [!IMPORTANT]
+> Warning in Perl is the most commonly used Pragma in Perl programming and is used to catch ‘unsafe code’.
+>
+> A pragma is a specific module in Perl package which has the control over some functions of the compile time or Run time behavior of Perl, which is strict or warnings.
+>
+> Like `pragma` in C.
+
+To enable warnings mode. Type it at begin.
+
+```
+use warnings;
+```
+
+For more information, see [warnings handling in Perl](https://www.geeksforgeeks.org/perl-warnings-and-how-to-handle-them/)
+
+> [!WARNING]
+>  The `warnings` pragma (such as `use warnings;`) was introduced in Perl 5.6. 
+#### strict mode
 [^1]: [ideone online IDE](https://ideone.com)

@@ -423,6 +423,20 @@ will output
 Your favorite color is red
 ```
 
+##### repetive of a string
+
++ Example 1:
+
+```
+print "a message " x 4, "\n";
+```
+
+will output
+
+```
+a message a message a message a message 
+```
+
 ##### embeding a variable in string
 Like it in PHP. One can embed a variable in string directly through typing `$` symbol followed by the variable name such as `"$amount"`.
 
@@ -612,6 +626,192 @@ will output
 ```
 0
 1
+```
+
+##### bitwise operator
+
++ Example 1:
+  
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my $a = 0b0101; # 5
+my $b = 0b0011; # 3
+
+my $c = $a & $b; # 0001 or 1
+print $c, "\n";
+
+$c = $a | $b; # 0111 or 7
+print $c, "\n";
+
+$c = $a ^ $b; # 0110 or 6
+print $c, "\n";
+
+$c = ~$a; # 11111111111111111111111111111010 (64bits computer) or 4294967290
+print $c, "\n";
+
+$c = $a >> 1; # 0101 shift right 1 bit, 010 or 2
+print $c, "\n";
+
+$c = $a << 1; # 0101 shift left 1 bit, 1010 or 10
+print $c, "\n";
+```
+
+will output
+
+```
+ source code   close shortcuts fullscreen 
+  
+ input
+ Output
+clear the output syntax highlight
+Success #stdin #stdout 0.01s 5372KB
+1
+7
+6
+18446744073709551610
+2
+10
+```
+
+##### comparison
+
++ Example 1:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my $a = 10;
+my $b = 20;
+
+print $a <=> $b, "\n";
+
+$b = 10;
+print $a <=> $b, "\n";
+
+$b = 5;
+print $a <=> $b, "\n";
+```
+
+will output
+
+```
+-1
+0
+1
+```
+
+#### list
+##### constructor
+
++ Example 1:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+print(()); # display nothing
+print("\n");
+print(10,20,30); # display 102030
+print("\n");
+print("this", "is", "a","list"); # display: thisisalist
+print("\n");
+```
+
+will output
+
+```
+
+102030
+thisisalist
+```
+
+##### qw
+
++ Example 1:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+print('red','green','blue'); # redgreenblue
+print("\n");
+
+print(qw(red green blue)); # redgreenblue
+print("\n");
+```
+
+will output
+
+```
+redgreenblue
+redgreenblue
+```
+
+##### auto flatten the list
+
+If you put a list, called an internal list, inside another list, Perl automatically flattens the internal list. The following lists are the same:
+
+```
+(2,3,4,(5,6))
+(2,3,4,5,6)
+((2,3,4),5,6)
+```
+
+##### access elem from the list
+
+> [!NOTE]
+> To access elem from the list with index, please wrap the index with `[]`.
+
+> [!NOTE]
+> The index of list starts from 0
+
++ Example 1:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+print(
+     (1,2,3)[0] # 1 first element
+);
+print "\n"; # new line
+
+print(
+     (1,2,3)[2] # 3 third element
+);
+print "\n"; # new line
+```
+
+will output
+
+```
+1
+3
+```
+
+#####  list slice
+To get multiple elements of a list at a time (i.e. list slice), you can put a list inside square brackets.
+
++ Example 1:
+```
+@array = (1,2,3,4,5)[0,2,3];
+my $str = sprintf '[%s]' x @array, @array;
+print($str);
+print("\n");
+```
+
+wiil output
+
+```
+[1][3][4]
 ```
 
 ### mode

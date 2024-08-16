@@ -1197,6 +1197,87 @@ will output
 9
 ```
 
+> [!CAUTION]
+> In each iteration of the loop, Perl creates an alias instead of a value.
+>
+> In other words, if you make any changes to the iterator, the changes also reflect in the elements of the array.
+
++ Example 3:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my @b = (1..5);
+
+print("Before the loop: @b \n");
+
+for(@b){
+	$_ = $_ * 2; 
+}
+
+print("After the loop: @b \n");
+```
+
+will output
+
+```
+Before the loop: 1 2 3 4 5 
+After the loop: 2 4 6 8 10 
+```
+
+> [!NOTE]
+> In Perl, one also can use for loop with `C-style`. (See Example 4.)
+
+Example 4 and Example 5 give same result.
+
++ Example 4:
+
+```
+use warnings;
+use strict;
+
+my @c = (1..6);
+for(my $i = 0; $i <= $#c; $i++){
+	print("$c[$i] \n");
+}
+```
+
+will output
+
+```
+1 
+2 
+3 
+4 
+5 
+6 
+```
+
++ Example 5:
+
+```
+use warnings;
+use strict;
+
+my @c = (1..6);
+for (@c){
+	print("$_ \n");
+}
+```
+
+will output
+
+```
+1 
+2 
+3 
+4 
+5 
+6 
+```
+
 ##### foreach
 
 + Example 1:
@@ -1335,6 +1416,95 @@ foreach $i(@array){
 ```
 
 will throw a runtime error in ideone[^1].
+
+##### while
+
++ Example 1:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my $counter = 10;
+
+while($counter > 0){
+
+   print("$counter\n");
+
+   # count down
+   $counter--;
+
+   # pause program for 1 second
+   sleep(1);
+
+   if($counter == 0){
+	print("Happy New Year!\n");
+   }
+}
+```
+
+will output
+
+```
+10
+9
+8
+7
+6
+5
+4
+3
+2
+1
+Happy New Year!
+```
+
++ Example 2:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my $num;
+my @numbers = ();
+
+print "Enter numbers, each per line :\n";
+print "ctrl-z (windows) or ctrl-d(Linux) to exit\n>";
+
+while(my $input = <>) {
+  print(">");
+  chomp $input;
+  $num = int($input);
+  push(@numbers, $num);    
+}
+
+print "You entered: @numbers\n";
+```
+
+Given input
+
+```
+2
+3
+4
+5
+```
+
+, it will output
+
+```
+Enter numbers, each per line :
+ctrl-z (windows) or ctrl-d(Linux) to exit
+>>>>>You entered: 2 3 4 5
+```
+
+in ideone[^1].
+
+![image](https://github.com/user-attachments/assets/e947296e-1ca4-4bea-b0b4-d90b267b2e0e)
+
+![image](https://github.com/user-attachments/assets/ea32cc8b-1682-45c6-bc3b-69d245c72dad)
 
 ### mode
 #### strict mode

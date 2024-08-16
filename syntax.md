@@ -573,6 +573,47 @@ will output
 2
 ```
 
+##### exponent
+
++ Example 1:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+print 2**3, "\n"; # = 2 * 2 * 2 = 8.
+
+print 3**4, "\n"; # = 3 * 3 * 3 * 3 = 81.
+```
+
+will output
+
+```
+8
+81
+```
+
+##### modulos
+
++ Example 1:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+print 4 % 2, "\n"; # 0 even
+print 5 % 2, "\n"; # 1 odd
+```
+
+will output
+
+```
+0
+1
+```
+
 ### mode
 #### strict mode
 

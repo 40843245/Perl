@@ -1228,6 +1228,114 @@ The array contains:
 9
 ```
 
+##### declare a local variable in a loop
+
+> [!NOTE]
+> To declare a local variable in a loop, just declare the local variable between keyword for loop and `(`.
+>
+> See the following example.
+
+> [!CAUTION]
+> It is NOT allowed to declare a global variable in a loop. That is, the following code is NOT allowed
+>
+> ```
+> foreach $i(@array){
+> print("$i","\n");
+> }
+> ```
+
++ Example 1:
+
+```
+use warnings;
+use strict;
+
+my @array = (1..9);
+
+print("The array contains:\n");
+for my $i(@array){
+	print("$i","\n");
+}
+```
+
+will output
+
+```
+The array contains:
+1
+2
+3
+4
+5
+6
+7
+8
+9
+```
+
++ Example 2:
+
+```
+use warnings;
+use strict;
+
+my @array = (1..9);
+
+print("The array contains:\n");
+foreach my $i(@array){
+	print("$i","\n");
+}
+```
+
+will output
+
+```
+The array contains:
+1
+2
+3
+4
+5
+6
+7
+8
+9
+```
+
+Wrong Examples:
+
++ Wrong Example 1:
+
+```
+use warnings;
+use strict;
+
+my @array = (1..9);
+
+print("The array contains:\n");
+for $i(@array){
+	print("$i","\n");
+}
+```
+
+will throw a runtime error in ideone[^1].
+
++ Wrong Example 2:
+
+```
+use warnings;
+use strict;
+
+my @array = (1..9);
+
+print("The array contains:\n");
+foreach $i(@array){
+	print("$i","\n");
+}
+```
+
+will throw a runtime error in ideone[^1].
+
 ### mode
 #### strict mode
 

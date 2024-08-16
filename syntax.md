@@ -443,6 +443,102 @@ will output
 The amount is 20
 ```
 
+##### get length of string
+
++ Example 1:
+
+```
+my $s = "This is a string\n";
+print(length($s),"\n"); #17
+```
+
+will output
+
+```
+17
+```
+
+##### get uppercase of string
+
++ Example 1:
+
+```
+my $s = "Change cases of a string\n";
+print("To upper case:\n");
+print(uc($s),"\n");
+```
+
+will output
+
+```
+To upper case:
+CHANGE CASES OF A STRING
+```
+
++ Example 2:
+
+```
+my $s = "Change cases of a string\n";
+print("To lower case:\n");
+print(lc($s),"\n");
+```
+
+will output
+
+```
+To lower case:
+change cases of a string
+```
+
+##### search for a substring inside a string
+
++ Example 1:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my $s = "Learning Perl is easy\n";
+my $sub = "Perl";
+my $p = index($s,$sub); # rindex($s,$sub);
+print(qq\The substring "$sub" found at position "$p" in string "$s"\,"\n");
+```
+
+will output
+
+```
+The substring "Perl" found at position "9" in string "Learning Perl is easy
+"
+```
+
+##### change substring in string
+
++ Example 1:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+# extract substring
+my $s = "Green is my favorite color";
+my $color = substr($s, 0, 5);# Green
+my $end = substr($s, -5); # color
+
+print($end,":",$color,"\n");
+
+# replace substring
+substr($s, 0, 5, "Red"); #Red is my favorite color
+print($s,"\n");
+```
+
+will output
+
+```
+color:Green
+Red is my favorite color
+```
+
 ### mode
 #### strict mode
 

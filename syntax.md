@@ -814,6 +814,358 @@ wiil output
 [1][3][4]
 ```
 
+#### array
+##### get number of elements in array
+In Perl, to safely get number of elements in array, one can use `scalar` function.
+
++ Example 1:
+  
+```
+my @days = qw(Mon Tue Wed Thu Fri Sat Sun);
+my $count = scalar @days;
+print($count, "\n");
+```
+
+will output
+
+```
+7
+```
+
+##### get the highest index in array
+To safely get the highest index in array, one can use `$#`.
+
++ Example 1:
+  
+```
+my @days = qw(Mon Tue Wed Thu Fri Sat Sun);
+my $last = $#days;
+print($last, "\n"); #" 6
+```
+
+will output
+
+```
+6
+```
+
+##### modify the element in array
+
++ Example 1:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my @days = qw(Mon Tue Wed Thu Fri Sat Sun);
+
+print("@days","\n");
+
+$days[0] = 'Monday';
+
+@days[1..6] = qw(Tuesday Wednesday Thursday Friday Saturday Sunday);
+
+print("@days","\n");
+```
+
+will output
+
+```
+Mon Tue Wed Thu Fri Sat Sun
+Monday Tuesday Wednesday Thursday Friday Saturday Sunday
+```
+
+##### append an element at the end in array
+To append an element at the end in array, one can use `push` function.
+
+> [!NOTE]
+> When it is considered as a stack, `push` function and `pop` function is used.
+>
+> `push` function: append an element at the end in array.
+>
+> `pop` function: pop up the last element in array.
+
+See the following example in [following section](#pop-up-the-last-element-in-array)
+
+##### pop up the last element in array
+To pop up the last element in array, one can use `pop` function.
+
++ Example 1:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my @stack = (); # empty array
+
+print("push 1 to array\n");
+
+push(@stack,1);
+
+print("push 2 to array\n");
+push(@stack,2);
+
+print("push 3 to array\n");
+push(@stack,3);
+
+print("The array contains:\n");
+
+for(@stack){
+	print("$_","\n");
+}
+
+
+my $elem = pop(@stack);
+print("element: $elem\n");
+
+$elem = pop(@stack);
+print("element: $elem\n");
+
+$elem = pop(@stack);
+print("element: $elem\n");
+
+print("The array contains:\n");
+
+for(@stack){
+	print("$_","\n");
+}
+```
+
+will output
+
+```
+push 1 to array
+push 2 to array
+push 3 to array
+The array contains:
+1
+2
+3
+element: 3
+element: 2
+element: 1
+The array contains:
+```
+
+##### insert the element at begin in array
+To insert the element at begin in array, one can use `unshift` function.
+
+> [!NOTE]
+> When it is considered as a queue, `unshift` function and `pop` function is used.
+>
+> `unshift` function: insert the element at begin in array.
+>
+> `pop` function: pop up the last element in array.
+
++ Example 1:
+
+```
+use warnings;
+use strict;
+
+my @queue = (); # empty queue
+
+print("enqueue 1 to array\n");
+unshift(@queue,1);
+
+print("enqueue 2 to array\n");
+unshift(@queue,2);
+
+printf("enqueue 3 to array\n");
+unshift(@queue,3);
+
+print("The queue contains:\n");
+
+for(@queue){
+	print("$_","\n");
+}
+
+my $elem = pop(@queue);
+print("element: $elem\n");
+
+$elem = pop(@queue);
+print("element: $elem\n");
+
+$elem = pop(@queue);
+print("element: $elem\n");
+
+print("The queue contains:\n");
+
+for(@queue){
+	print("$_","\n");
+}
+```
+
+will output
+
+```
+enqueue 1 to array
+enqueue 2 to array
+enqueue 3 to array
+The queue contains:
+3
+2
+1
+element: 1
+element: 2
+element: 3
+The queue contains:
+```
+
+##### sort in array
+To sort in array, one can use `sort` function.
+
+> [!IMPORTANT]
+> The array is sorted by default sorting algorithm.
+>
+> The default sorting algorithm is special. Unlike it in other language.
+>
+> First, it treats all elements as string and then sort it by ascii ascending, by default.
+>
+> Based on this, if one sorts an array consist of numbers with default sorting algorithm, it will NOT sort the array from smallest number to largest number. (See Example 2.). For how to sort an array from smallest number to largest number, see Example 3.
+
+
+> [!IMPORTANT]
+> The array is sorted by default sortinh algorithm.
+>
+> To NOT use default sorting algorithm, one have to specify its own sorting algorithm which wrapped `{}`. (See Example 3.)
+
+
++ Example 1:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my @fruits = qw(oranges apples mango cucumber);
+
+print("The fruit contains:\n");
+
+for(@fruits){
+	print("$_","\n");
+}
+
+my @sorted = sort @fruits;
+
+print("The fruit contains:\n");
+
+for(@sorted){
+	print("$_","\n");
+}
+
+print("@sorted","\n"); # apples cucumber mango oranges
+```
+
+will output
+
+```
+The fruit contains:
+oranges
+apples
+mango
+cucumber
+The fruit contains:
+apples
+cucumber
+mango
+oranges
+apples cucumber mango oranges
+```
+
++ Example 2:
+
+```
+use warnings;
+use strict;
+my @array = qw(3 2 1 4 7 6 10 15 27 100); 
+
+print("The array contains:\n");
+for(@array){
+	print("$_","\n");
+}
+
+@array = sort @array; 
+# @array = sort {$a <=> $b} @array; 
+
+print("The array contains:\n");
+for(@array){
+	print("$_","\n");
+}
+```
+
+will output
+
+```
+The array contains:
+1
+10
+100
+15
+2
+27
+3
+4
+6
+7
+```
+
+Sorting  default sorting algorithm, 
+
++ Example 3:
+
+```
+use warnings;
+use strict;
+my @array = qw(3 2 1 4 7 6 10 15 27 100); 
+
+print("The array contains:\n");
+for(@array){
+	print("$_","\n");
+}
+
+# @array = sort @array; 
+@array = sort {$a <=> $b} @array; 
+
+print("The array contains:\n");
+for(@array){
+	print("$_","\n");
+}
+```
+
+will output
+
+```
+The array contains:
+3
+2
+1
+4
+7
+6
+10
+15
+27
+100
+The array contains:
+1
+2
+3
+4
+6
+7
+10
+15
+27
+100
+```
+
 ### mode
 #### strict mode
 

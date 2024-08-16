@@ -539,6 +539,40 @@ color:Green
 Red is my favorite color
 ```
 
+#### numeric
+##### addition
+See [division](#division)
+
+##### subtraction
+See [division](#division)
+
+##### multiplication
+See [division](#division)
+
+##### division
+
++ Example 1:
+  
+```
+use warnings;
+use strict;
+
+print 10 + 20, "\n"; # 30
+print 20 - 10, "\n"; # 10
+
+print 10 * 20, "\n"; # 200
+print 20 / 10, "\n"; # 2
+```
+
+will output
+
+```
+30
+10
+200
+2
+```
+
 ### mode
 #### strict mode
 
@@ -567,3 +601,4 @@ For more information, see [warnings handling in Perl](https://www.geeksforgeeks.
 >  The `warnings` pragma (such as `use warnings;`) was introduced in Perl 5.6. 
 #### strict mode
 [^1]: [ideone online IDE](https://ideone.com)
+

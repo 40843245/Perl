@@ -1166,6 +1166,68 @@ The array contains:
 100
 ```
 
+### loop
+#### reptitive loop
+##### for
+
++ Example 1:
+```
+use warnings;
+use strict;
+
+my @array = (1..9);
+
+print("The array contains:\n");
+for(@array){
+	print("$_","\n");
+}
+```
+
+will output
+
+```
+1
+2
+3
+4
+5
+6
+7
+8
+9
+```
+
+##### foreach
+
++ Example 1:
+
+```
+use warnings;
+use strict;
+
+my @array = (1..9);
+
+print("The array contains:\n");
+foreach(@array){
+	print("$_","\n");
+}
+```
+
+will output 
+
+```
+The array contains:
+1
+2
+3
+4
+5
+6
+7
+8
+9
+```
+
 ### mode
 #### strict mode
 

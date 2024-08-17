@@ -2290,7 +2290,10 @@ The syntax as follows:
 where
 
 ```
-<subroutineName> is defined in above section [define a subroutine](#define-a-subroutine)
+<subroutineName> is defined in above section.`
 ```
+
+[define a subroutine](#define-a-subroutine)
+
 [^1]: [ideone online IDE](https://ideone.com)
 

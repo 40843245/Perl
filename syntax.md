@@ -362,16 +362,11 @@ Hello
 > One expression can consist of one or many expressions.
 
 ```
-{plus} := \+
-{minus} := \-
-{multiply} := \*
-{division} := /
-{integerDivision} := //
-{exponent} := ^
-{modulus} := %
+{expressionUtility} := ({number}({minus}|{plus}|{multiplication}|{division}|{integerDivision}|{modulus}|{exponent}){number})|({minus}{number})
+```
 
-
-{expressionUtility} := 
+```
+{expression} := ({expressionUtility}+)|({leftValue}{assignment}{expressionUtility}+)
 ```
 
 + Example 1:

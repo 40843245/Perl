@@ -2256,5 +2256,41 @@ Name "main::bar" used only once: possible typo at CH11/ex11_3_1.pl line 8.
 whatever
 whatever
 ```
+
+### subroutine
+#### define a subroutine
+To define a subroutine, use `sub` keyword, followed by subroutine name, then followed by a wrapped by `{}` with name body.
+
+The syntax as follows:
+
+```
+sub <subroutineName>{
+	# body of the subroutine.
+	<subroutineBody>
+}
+```
+
+where
+
+```
+<subroutineName> := {identifier}
+<subroutineBody> := {expression}+
+```
+
+
+#### call a subroutine
+
+The syntax as follows:
+
+```
+&<subroutineName>;
+<subroutineName>();
+```
+
+where
+
+```
+<subroutineName> is defined in above section [define a subroutine](#define-a-subroutine)
+```
 [^1]: [ideone online IDE](https://ideone.com)
 

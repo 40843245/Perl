@@ -18,7 +18,159 @@ An identifier must
 + start with uppercase alphabet and lowercase alphabet.
 + NOT be a keyword.
 
+To use [re (regular expression)](https://en.wikipedia.org/wiki/Regular_expression)  to define some definitions.
 > [!NOTE]
+> In re the character `\` escapes the special character.
+>
+> For example, `\+` escapes the special character `+`.
+>
+> and `\-` escapes the special character `-`.
+
+The special characters in re includes
+
++ +
++ -
++ *
++ ^
++ \
++ {
++ }
++ [
++ ]
++ (
++ )
++ .
++ $
+
+Before we define `identifier` with re, we define some basic data type in re first.
+
+```
+# For alphabet
+{uppercase} := [A-Z]
+{lowercase} := [a-z]
+{alphabet} := ({uppercase}|{lowercase})
+
+# For digit
+{digit} := [0-9]
+{nonzeroDigit} := [1-9]
+
+# For some symbols
+{underscore} := _
+{dot} := \.
+{plus} := \+
+{minus} := \-
+{multiplication} := \*
+{division} := /
+{integerDivision} := //
+{modulus} := %
+{exponent} := \^
+{equalSign} := =
+{lessThanSign} := <
+{greaterThanSign} := >
+{exclamationSign} := !
+{questionSign} := ?
+{tildeSign} := ~
+{dollarSign} := \$
+{atSign} := @
+{hashTagSign} := \#
+
+# For assignment
+{assigment} := {equalSign}
+
+# For comparisons
+## For comparisons of two numbers and two booleans
+{eq} := {equalSign}{equalSign} # equal to 
+{ne} := {exclamationSign}{equalSign} # not equal to
+
+## For comparisons of two numbers
+{lt} := {lessThanSign} # less than
+{gt} := {greaterThanSign} # greater than
+{le} := {lessThanSign}{equalSign} # less than or equal to
+{ge} := {greaterThanSign}{equalSign} # greater than or equal to
+
+## For other comparisons of two numbers
+{numberComparisonInPerl} := {lessThanSign}{equalSign}{greaterThanSign} # The operator `<=>`acts strcmp in C. For two numbers `x` and `y`, it will return ` iff `x>y`. It will return 0 iff `x==y`. It will return -1 iff `x<y`.
+
+## For comparisons of two strings.
+{eqString} := eq
+{neString} := ne
+{ltString} := lt
+{gtString} := gt
+{leString} := le
+{geString} := ge
+ 
+# For quotation
+{singleQuotation} := '
+{doubleQuotation} := "
+{backslash} := \\
+
+{nonnegativeInteger} := {digit}+
+{positiveInteger} := {nonzeroDigit}({digit})*
+{negativeInteger} := {minus}{positiveInteger}
+
+{integer} := ({negativeInteger}|{nonnegativeInteger})
+
+{float} := (({plus}|{minus})? {nonnegativeInteger}){dot}({positiveInteger})
+
+{anyCharExceptSingleQuotation} := [^{singleQuotation}]
+{anyCharsExceptUnespacedSingleQuotation}:= ({anyCharExceptSingleQuotation}*{backslash}{singleQuotation}?)+
+
+{anyCharExceptDoubleQuotation} := [^{doubleQuotation}]
+{anyCharsExceptUnespacedDoubleQuotation}:= ({anyCharExceptDoubleQuotation}*{backslash}{doubleQuotation}?)+
+
+{singleQuotationString} := ({singleQuotation}{anyCharsExceptUnespacedSingleQuotation}{singleQuotation}
+{doubleQuotationString} := ({doubleQuotation}{anyCharsExceptUnespacedDoubleQuotation}{doubleQuotation}
+
+{string} := ({singleQuotationString}|{doubleQuotationString})
+```
+
+Then we define `keyword` in re.
+
+```
+{keyword} := see the keywords in Perl.
+```
+
+The re of `identifier` as follows.
+
+```
+{identifier} := {alphabet}({alphabet}|{digit}|{underscore})*
+```
+
+The re of `variable` as follows.
+
+```
+{variableName} := {identifier}
+{variable} := {variable}
+```
+
+The re of `variable` with basic type as follows.
+
+```
+{basicTypeVariable} := {dollarSign}{variable}
+```
+
+The re of `variable` with array type as follows.
+
+```
+{arrayTypeVariable} := {atSign}{variable}
+```
+
+The re of `variable` with hash type as follows.
+
+```
+{hashTypeVariable} := {hashTagSign}{variable}
+```
+
+> [!NOTE]
+> In Perl, according to different type of return value about a variable, it will add different prefix. It will be discussed later.
+>
+>> If type of return value about a variable is basic data type, it will add `$` as prefix.
+>>
+>> If type of return value about a variable is array type, it will add `@` as prefix.
+>>
+>> If type of return value about a variable is hash data type, it will add `#` as prefix.
+
+> [!IMPORTANT]
 > A variable is case-sensitive. Such as `Var1` and `var1` are NOT same variables.
 
 + Example 1:
@@ -122,6 +274,12 @@ $x=10;
 
 It will define a variable whose name is `x` and assign the value `10` into the variable `x`.
 
+The re of an `expression` with an assignment operator as follows.
+
+```
+
+```
+
 ### block 
 A block is made up of statements wrapped in curly braces `{}`.
 
@@ -202,7 +360,19 @@ Hello
 
 > [!NOTE]
 > One expression can consist of one or many expressions.
-> 
+
+```
+{plus} := \+
+{minus} := \-
+{multiply} := \*
+{division} := /
+{integerDivision} := //
+{exponent} := ^
+{modulus} := %
+
+
+{expressionUtility} := 
+```
 
 + Example 1:
 

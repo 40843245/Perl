@@ -764,6 +764,58 @@ If you put a list, called an internal list, inside another list, Perl automatica
 ((2,3,4),5,6)
 ```
 
++ Example 1:
+
+```
+=begin
+
+They are equivalent:
+
+(2,3,4,(5,6))
+(2,3,4,5,6)
+((2,3,4),5,6)
+
+=cut
+
+@list1 = (2,3,4,(5,6));
+@list2 = (2,3,4,5,6);
+@list3 = ((2,3,4),5,6);
+
+print("list1 contains:\n");
+foreach(@list1)
+{
+	print($_."\t");
+}
+print("\n");
+
+print("list2 contains:\n");
+foreach(@list2)
+{
+	print($_."\t");
+}
+print("\n");
+
+print("list3 contains:\n");
+foreach(@list3)
+{
+	print($_."\t");
+}
+print("\n");
+```
+
+will output
+
+```
+list1 contains:
+2       3       4       5       6
+list2 contains:
+2       3       4       5       6
+list3 contains:
+2       3       4       5       6
+```
+
+in VSC with Perl plugin.
+
 ##### access elem from the list
 
 > [!NOTE]
@@ -1055,7 +1107,6 @@ for(@fruits){
 my @sorted = sort @fruits;
 
 print("The fruit contains:\n");
-
 for(@sorted){
 	print("$_","\n");
 }
@@ -1166,11 +1217,12 @@ The array contains:
 100
 ```
 
-### loop
-#### reptitive loop
+### repetitive loop and conditional statement
+#### repetitive loop
 ##### for
 
 + Example 1:
+  
 ```
 use warnings;
 use strict;
@@ -1202,7 +1254,7 @@ will output
 >
 > In other words, if you make any changes to the iterator, the changes also reflect in the elements of the array.
 
-+ Example 3:
++ Example 2:
 
 ```
 #!/usr/bin/perl
@@ -1228,11 +1280,11 @@ After the loop: 2 4 6 8 10
 ```
 
 > [!NOTE]
-> In Perl, one also can use for loop with `C-style`. (See Example 4.)
+> In Perl, one also can use for loop with `C-style`. (See Example 3.)
 
-Example 4 and Example 5 give same result.
+Example 3 and Example 4 give same result.
 
-+ Example 4:
++ Example 3:
 
 ```
 use warnings;
@@ -1255,7 +1307,7 @@ will output
 6 
 ```
 
-+ Example 5:
++ Example 4:
 
 ```
 use warnings;
@@ -1462,6 +1514,7 @@ Happy New Year!
 
 + Example 2:
 
+The following code
 ```
 #!/usr/bin/perl
 use warnings;
@@ -1483,28 +1536,293 @@ while(my $input = <>) {
 print "You entered: @numbers\n";
 ```
 
-Given input
-
-```
-2
-3
-4
-5
-```
-
-, it will output
+will give input and output
 
 ```
 Enter numbers, each per line :
 ctrl-z (windows) or ctrl-d(Linux) to exit
->>>>>You entered: 2 3 4 5
+>1
+>2
+>3
+>^Z
+You entered: 1 2 3
 ```
 
-in ideone[^1].
+in VSC with Perl plugin.
 
-![image](https://github.com/user-attachments/assets/e947296e-1ca4-4bea-b0b4-d90b267b2e0e)
+> [!NOTE]
+> There are another way to express the `while` loop.
 
-![image](https://github.com/user-attachments/assets/ea32cc8b-1682-45c6-bc3b-69d245c72dad)
++ Example 3:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my $i = 5;
+print($i--,"\n") while($i > 0);
+```
+
+will output
+
+```
+5
+4
+3
+2
+1
+```
+
+##### do while 
+
++ Example 1:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my $command;
+print("Enter a command, bye to quit.\n");       
+
+do {
+  print(">");       
+
+  # convert command to lowercase
+  chomp($command = <STDIN>);  
+  $command = lc($command);
+  # display the command
+  print("$command\n");
+}while($command ne "bye");
+```
+
+will give input and output
+
+```
+Enter a command, bye to quit.
+>2
+2
+>3
+3
+>4
+4
+>5
+5
+>6
+6
+>7
+7
+>^Z
+Use of uninitialized value $command in chomp at CH6/ex6_1.pl line 12, <STDIN> line 6.
+Use of uninitialized value $command in lc at CH6/ex6_1.pl line 13, <STDIN> line 6.
+
+>bye
+bye
+```
+
+##### do until
+
+The following example (i.e. Example 1) will be equivalent to the Example 1 in [previous section](#do-while).
+
++ Example 1:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my $command;
+print("Enter a command, bye to quit.\n");       
+
+do {
+  print(">");       
+
+  # convert command to lowercase
+  chomp($command = <STDIN>);  
+  $command = lc($command);
+  # display the command
+  print("$command\n");
+}until($command eq "bye");
+```
+
+will give input and output
+
+```
+Enter a command, bye to quit.
+>2
+2
+>e4
+e4
+>bye
+bye
+```
+
+##### next statement
+
+> [!NOTE]
+> The `next` statement allows you to start the next iteration of the loop and skips the rest of the code below it. Like `continue` keyword in C.
+>
+> To use `next` statement, one have to define an additional loop block for the next statement as follows.
+>
+> ```
+>do{
+>    # do block
+> {
+> 	statement next;
+> }
+> }while(condition);
+> ```
+>
+> or in short
+>
+> ```
+> do{{
+> statement next;
+> }}while(condition);
+> ```
+
++ Example 1:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my @a = (1,3,2,4,6,9,8);
+
+my $sum_even = 0;
+my $num = 0;
+
+do {{
+ # get the next array element
+ $num = shift(@a);	
+
+ # skip if the  element is odd number
+ next if $num % 2 == 1;
+
+ # calculate total of even numbers
+ $sum_even += $num;
+
+}}until(!scalar @a > 0);
+
+print("$sum_even\n");
+```
+
+will output
+
+```
+20
+```
+
+##### last statement
+
+> [!NOTE]
+> The `last` statement exits the repetitive loop immediately. It acts as `break` statement in C.
+>
+> To use repetitive statement with the last statement, you need to add another block to the repetitive statement like this:
+>
+> loop_label:{
+> 	do{
+>   		last if expression;
+> 	}while(condition)
+> }
+
+
++ Example 1:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my @haystack = qw(1 3 2 4 5 9 8 6 7);
+
+my $count = scalar @haystack;
+my $i = 0;
+my $needle;
+
+print("Enter a number to search (1-9):");
+$needle = int(<STDIN>);
+
+find_needle_in_haystack:{
+ do {
+
+  if($haystack[$i] == $needle){
+    print("Number $needle found at position $i\n");
+    # exit the loop
+    last;
+  }
+  # next element
+  $i++;
+ }until($i == $count);
+}
+```
+
+wiil give input and output
+
+```
+Enter a number to search (1-9):1
+Number 1 found at position 0
+```
+
+##### until
+
++ Example 1:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my $counter = 5;
+
+until($counter == 0){
+   print("$counter \n");
+   $counter--;
+}
+```
+
+will output
+
+```
+5 
+4
+3
+2
+1
+```
+
++ Example 2:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my $counter = 0;
+my @keywords = qw(until while do for loop);
+
+until(!scalar @keywords) {
+  $counter++;
+  print shift(@keywords) . "\n";
+
+}
+print("$counter elements removed!\n");
+```
+
+will output
+
+```
+until
+while
+do
+for
+loop
+5 elements removed!
+```
+
+#### conditional statement
 
 ### mode
 #### strict mode
@@ -1531,7 +1849,29 @@ use warnings;
 For more information, see [warnings handling in Perl](https://www.geeksforgeeks.org/perl-warnings-and-how-to-handle-them/)
 
 > [!WARNING]
->  The `warnings` pragma (such as `use warnings;`) was introduced in Perl 5.6. 
-#### strict mode
+>  The `warnings` pragma (such as `use warnings;`) was introduced in Perl 5.6 .
+
+
+### re (regular expression)
+
+Example 1 illustrates the basic matching.
+
++ Example 1:
+
+```
+# It illustrates the basic matching.
+string =~ regex;
+```
+
++ Example 2:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+my $s = 'Perl regular expression is powerful';
+print "match found\n" if( $s =~ /ul/); # It will match the string `Perl regular expression is powerful;` does match `ul`. If it does match, it will print match found.
+```
+
 [^1]: [ideone online IDE](https://ideone.com)
 

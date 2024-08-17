@@ -1873,5 +1873,388 @@ my $s = 'Perl regular expression is powerful';
 print "match found\n" if( $s =~ /ul/); # It will match the string `Perl regular expression is powerful;` does match `ul`. If it does match, it will print match found.
 ```
 
++ Example 3:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my @words= (
+	   'Perl',
+	   'regular expression',
+	   'is',
+	   'a very powerul',
+	   'feature'
+	);
+
+foreach(@words){
+   print("$_ \n") if($_ !~ /er/);
+}
+```
+
+will output
+
+```
+regular expression 
+is
+feature
+```
+
++ Exampl 4:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my @html = (
+	   '<p>',
+	   'html fragement',
+	   '</p>',
+	   '<br>',
+	   '<span>This is a span</span>'
+	);
+
+foreach(@html){
+   print("$_ \n") if($_ =~ m"/");
+}
+```
+
+will output
+
+```
+</p>
+<span>This is a span</span>
+Press any key to continue . . .
+```
+
++ Example 5:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my $s = "Regular expression";
+print "match\n" if $s =~ /Expression/i;
+```
+
+will output
+
+```
+match
+```
+
++ Example 6:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my @words = ('dog','fog','chicken');
+
+for(@words){
+   print("$_\n") if(/[dfr]og/); # matches dog, fog, and rog
+}
+```
+
+will output
+
+```
+dog
+fog
+```
+
++ Example 7:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my $time = localtime();
+print $time, "\n";
+print "Match found\n" if($time =~ /\d\d:\d\d:\d\d/);
+```
+
+will output
+
+```
+Sat Aug 17 14:43:48 2024
+Match found
+```
+
++ Example 8:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my $time = localtime();
+print $time, "\n";
+print ("$1 \n") if($time =~ /(\d\d:\d\d:\d\d)/);
+```
+
+will output
+
+```
+Sat Aug 17 14:44:57 2024
+14:44:57
+```
+
++ Example 9:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+use Data::Dumper; 
+
+my $text = <<END;
+name: Antonio Vivaldi, period: 1678-1741
+name: Andrea Zani,period: 1696-1757
+name: Antonio Brioschi, period: 1725-1750
+END
+
+my %composers;
+
+for my $line (split /\n/, $text){
+    print $line, "\n";
+    if($line =~ /name:\s+(\w+\s+\w+),\s+period:\s*(\d{4}\-\d{4})/){
+    	$composers{$1} = $2;
+    }
+}
+
+print Dumper(\%composers);
+```
+
+will output
+
+```
+name: Antonio Vivaldi, period: 1678-1741
+name: Andrea Zani,period: 1696-1757
+name: Antonio Brioschi, period: 1725-1750
+$VAR1 = {
+          'Antonio Brioschi' => '1725-1750',
+          'Antonio Vivaldi' => '1678-1741'
+        };
+```
+
++ Example 10:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my $str = 'new york city';
+
+$str =~ s/new york/New York/;
+
+print $str, "\n";
+```
+
+will output
+
+```
+New York city
+Press any key to continue . . .
+```
+
++ Example 11:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my $str =  <<EOF;
+new york city is beautiful. Have you ever been to new york city?;
+EOF
+
+$str =~ s/new york/New York/g;
+
+print $str, "\n";
+```
+
+will output
+
+```
+New York city is beautiful. Have you ever been to New York city?;
+
+Press any key to continue . . .
+```
+
+### references
+
++ Example 1:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my $x = 10;
+
+my $xr = \$x;
+
+# change $x via $xr
+$$xr = $$xr * 2;
+
+print("$x\n"); # 20
+print("$$xr \n");  # 20
+print("$xr\n"); # SCALAR(0x1d2e6e4)
+```
+
+will output
+
+```
+20
+20
+SCALAR(0x2af297c)
+```
+
++ Example 2:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my @a = (1..5);
+my $ar = \@a;
+
+my $i = 0;
+for(@$ar){
+    print("$ar->[$i++] \n");
+}
+```
+
+will output
+
+```
+1 
+2
+3
+4
+5
+```
+
++ Example 3:
+
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my %months= ( Jan => 1,
+	      Feb => 2,
+	      Mar => 3,
+	      Apr => 4,
+	      May => 5,  
+	      Jun => 6,
+	      Jul => 7,
+	      Aug => 8,
+	      Sep => 9,
+	      Oct => 10,
+	      Nov => 11,
+	      Dec => 12);
+
+my $monthr = \%months;	   
+
+for(keys %$monthr){
+    print("$_  = $monthr->{$_}\n");
+}
+```
+
+will  output
+
+```
+Sep  = 9
+May  = 5
+Jul  = 7
+Jun  = 6
+Jan  = 1
+Nov  = 11
+Aug  = 8
+Feb  = 2
+Mar  = 3
+Dec  = 12
+Apr  = 4
+Oct  = 10
+```
+
+#### anomynous reference
+
++ Example 1:
+  
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my $ar = [1..5];
+
+# loop over the array elements
+for(@$ar){
+   print("$_  "); # 1 2 3 4 5
+}
+
+print("\n");
+```
+
+will output
+
+```
+1 2 3 4 5
+```
+
+#### symbolic references
+
++ Example 1:
+
+```
+#!/usr/bin/perl
+use warnings;
+
+my $foo = "bar";
+$$foo = "whatever";
+
+print $$foo , "\n"; # whatever
+print $bar, "\n"; # whatever
+```
+
+#### autovivification
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my $foo->{address}->{building} = 1000;
+
+print $foo, "\n"; # HASH(0x3bad24)
+print $foo->{address}, , "\n"; # HASH(0x3bae04)
+print $foo->{address}->{building},"\n"; # 1000
+```
+
+will output
+
+```
+HASH(0xf8c7ec)
+HASH(0xf8ca5c)
+1000
+```
+will output
+
+```
+Name "main::bar" used only once: possible typo at CH11/ex11_3_1.pl line 8.
+whatever
+whatever
+```
 [^1]: [ideone online IDE](https://ideone.com)
 

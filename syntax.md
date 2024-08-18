@@ -1,15 +1,76 @@
 # Perl
 ## syntax
+### overview of data type
+#### basic data type
+##### integer
+
++ Example 1:
+
+```
+$x=10;
+```
+
+##### float 
+
++ Example 1:
+
+```
+$fnum=1.5;
+```
+
+##### string
+
++ Example 1:
+
+```
+$str="string";
+```
+
+#### array or list
+##### array
+
++ Example 1:
+
+```
+@array1= qw(1,2,3);
+```
+
+##### list
+
++ Example 1:
+
+```
+@list1= (1,2,3);
+```
+
+#### hash
+
++ Example 1:
+
+```
+%array1= (
+England => 'English',
+France => 'French',
+Spain => 'Spanish',
+China => 'Chinese',
+Germany => 'German'
+);
+```
+
 ### variable 
 > [!NOTE]
 > A variable is defined iff its it is first assigned.
 
 > [!NOTE]
-> To access a variable, it must start with `$` sign and followed by a varible name. Like variable in PHP.
+> To access a variable which returns a basic data type, it must start with `$` sign and followed by a varible name. Like variable in PHP.
 >
 > Such as
 >
 > `$x=10`
+>
+> While, to access a variable which returns an `array`, it must start with `@`.
+>
+> While, to access a variable which returns an `hash`, it must start with `%`.
 
 A variable must start with identifier.
 
@@ -57,35 +118,46 @@ Before we define `identifier` with re, we define some basic data type in re firs
 # For some symbols
 {underscore} := _
 {dot} := \.
-{plus} := \+
-{minus} := \-
-{multiplication} := \*
-{division} := /
-{integerDivision} := //
-{modulus} := %
-{exponent} := \^
-{equalSign} := =
-{lessThanSign} := <
-{greaterThanSign} := >
-{exclamationSign} := !
-{questionSign} := ?
-{tildeSign} := ~
-{dollarSign} := \$
-{atSign} := @
-{hashTagSign} := \#
-{semicolon} := ;
-{colon} := : 
+{plus} := \+ # `+`
+{minus} := \- # `-`
+{multiplication} := \* # `*`
+{division} := / # `/`
+{integerDivision} := // # `//`
+{modulus} := % # `%`
+{exponent} := \^ # `^`
+{equalSign} := = # `=`
+{lessThanSign} := < # `<`
+{greaterThanSign} := > # `>`
+{exclamationSign} := ! # `!`
+{questionSign} := \? # `?`
+{tildeSign} := ~ # `~`
+{dollarSign} := \$ # `$`
+{atSign} := @ # `@`
+{hashTagSign} := \# # `#`
+{semicolon} := ; # `;`
+{colon} := : # `:`
+{leftParen} := \( # `(`
+{rightParen} := \) # `)`
+{leftSquareBracket} := \[ # `[`
+{rightSquareBracket} := \] # `]`
+{leftCurlyBracket} := \{ # `{`
+{rightCurlyBracket} := \} # `}`
+{comma} := , # `,`
 
-{whitespace} := # a whitespace " "
-{tab} := \t # a tab "\t"
+# For space
+{whitespace} := # a whitespace  ` `
+{tab} := \t # a tab `\t`
 {space} := ({whitespace}|{tab})
 {spaces} := {space}+
 {spacesOptional} := {space}*
 
 # For quotation
-{singleQuotation} := ' # '
-{doubleQuotation} := " # "
-{backslash} := \\ # \
+{singleQuotation} := ' # `'`
+{doubleQuotation} := " # `"` 
+{backslash} := \\ # `\` 
+{ampersand} := & # `&`
+{asterisk} := \* # `*`
+
 
 # For basic data type
 ## For integer
@@ -145,18 +217,12 @@ Before we define `identifier` with re, we define some basic data type in re firs
 {geString} := ge
 
 {stringComparisonOperator} := ({eqString}|{neString}|{ltString}|{gtString}|{leString}|{geString})
-
-# For expression
-## About numbers
-{numberExpression} := ({number}|{variableWithPrefix}){spacesOptional}{numberComparisonOperator}{spacesOptional}({number}|{variableWithPrefix})
-
-## About string
-{numberExpression} := ({string}|{variableWithPrefix}){spacesOptional}{stringComparisonOperator}{spacesOptional}({string}|{variableWithPrefix})
 ```
 
 The re of `variable` as follows.
 
 ```
+# For variable without prefix
 {variableName} := {identifier}
 {variable} := {vaariableName}
 ```
@@ -164,39 +230,53 @@ The re of `variable` as follows.
 Then we define `keyword` in re.
 
 ```
+# For keyword
 {keyword} := see the keywords in Perl.
 ```
 
 The re of `identifier` as follows.
 
 ```
+# For identifier
 {identifier} := {alphabet}({alphabet}|{digit}|{underscore})*
 ```
 
-{hashTypeVariable} := {hashTagSign}{variable}
-
-
-```
-{variableWithPefix} := {basicTypeVariable}|{arrayTypeVariable}|{hashTypeVariable}
-```
-
-
-The re of `variable` with basic type as follows.
+The re of `variable` with `basic` type as follows.
 
 ```
+# For variable with prefix
+## About basic data type
 {basicTypeVariable} := {dollarSign}{variable}
 ```
 
-The re of `variable` with array type as follows.
+The re of `variable` with `array` type as follows.
 
 ```
+## About array type
 {arrayTypeVariable} := {atSign}{variable}
 ```
 
-The re of `variable` with hash type as follows.
+The re of `variable` with `list` type as follows.
 
 ```
+## About list type
+{listTypeVariable} := {atSign}{variable}
 ```
+
+The re of `variable` with `hash` type as follows.
+
+```
+## About hash type
+{hashTypeVariable} := {modulus}{variable} # for example, `%hash1`
+```
+
+The re of `variable` with `prefix` type as follows.
+
+```
+## About prefix of a variable
+{variableWithPefix} := ({basicTypeVariable}|{arrayTypeVariable}|{listTypeVariable}|{hashTypeVariable})
+```
+
 > [!NOTE]
 > In Perl, according to different type of return value about a variable, it will add different prefix. It will be discussed later.
 >
@@ -204,7 +284,74 @@ The re of `variable` with hash type as follows.
 >>
 >> If type of return value about a variable is array type, it will add `@` as prefix.
 >>
->> If type of return value about a variable is hash data type, it will add `#` as prefix.
+>> If type of return value about a variable is hash data type, it will add `%` as prefix.
+
+The re of `operator` for `basic` type as follows.
+
+```
+# For operator
+## About numbers
+{arthimeticalOperator} := ({plus}|{minus}|{multiplication}|{division}|{exponent}|{modulus})
+{numberAllOperator} := ({arthimeticalOperator}|{numberComparisonOperator})
+
+## About string
+{concatenationString} := {dot}
+{stringAllOperator} := ({stringComparisonOperator}|{concatenationString})
+```
+
+> [!NOTE]
+> Here, in re, I don't consider expression about operations of variables with array, list, and hash type.
+
+The re of `parameter` in built-in function call or subroutine call as follows.
+
+```
+# For parameter 
+{parameter} := ({variableWithPefix}|{expression})
+{parameters} := {parameter}({comma}{parameter})*
+```
+
+The re of `built-in` function and its call as follows.
+
+```
+# For function or subroutine
+## For function
+### About function name
+<builtinFunctionName> := # A built in function in Perl.
+
+### About function call
+{builtinFunctionCall} := <builtinFunctionName>{leftParen}{parameters}?{rightParen}
+```
+
+The re of `my own` function (or called subroutine in Perl) and its call as follows.
+
+```
+## For subroutine
+### About subroutine name
+{subroutineName} := {identifier}
+
+### About subroutine call
+{subroutineCall} := (({subroutineName}{leftParen}{parameters}?{rightParen})|({ampersand}{subroutineName})) # For the left group, such as `subroutine1($args).` For the right group, such as `&subroutine2`.
+
+### About call
+{call} := ({builtinFunctionCall}|{subroutineCall})
+```
+
+The re of `expression` as follows.
+
+```
+# For expression
+## About numbers
+{numberExpression} := ({number}|{call}|{basicTypeVariable}){spacesOptional}({numberComparisonOperator}{spacesOptional}({number}|{call}|{basicTypeVariable}))* # expression about two numbers such as `3 + $var1`
+
+## About string
+{stringExpression} := ({string}|{call}|{basicTypeVariable}){spacesOptional}({stringComparisonOperator}{spacesOptional}({string}|{call}|{basicTypeVariable}))* # expression about two strings such as `"Hello World!\n"."This is Perl.\n"`
+
+## About simple expression
+{simpleExpression} := ({numberExpression}|{stringExpression}|{call})
+
+## About more complicated expression
+{complicatedExpression} := ({simpleExpression}|{expressionWithAssignment}) # Definition of {expressionWithAssignment}, see below.
+```
 
 > [!IMPORTANT]
 > A variable is case-sensitive. Such as `Var1` and `var1` are NOT same variables.
@@ -229,6 +376,7 @@ It will define a variable whose name is `x` and assign the value `10` into the v
 > See [strict mode](#strict-mode)
 
 ##### declaring global variables
+
 > [!NOTE]
 > By default, it declares a global variable. To declare a local variable, use `my` keyword before the variable.
 
@@ -310,21 +458,46 @@ $x=10;
 
 It will define a variable whose name is `x` and assign the value `10` into the variable `x`.
 
-The re of an `expression` as follows.
+The re of `lvalue` (i.e. left value, right hand side of equal sign) as follows.
 
 ```
-{expressionString} := {}
+# For value
+## For left value
+<lvalue> := {variableWithPrefix}
 ```
 
 The re of `rvalue` (i.e. right value, right hand side of equal sign) as follows.
 
 ```
-<rvalue> := {expression}
+## For right value
+<rvalue> := {complicatedExpression} # Definition of {complicatedExpression}, see above.
 ```
 
+The re of `expreesion` with assignment operator (`=`) as follows.
+
 ```
-<expreesionWihAssignment> := <lvalue>{equalSign}<rvalue>
+# For expression
+## # For expression with assignment
+<expreesionWithAssignment> := <lvalue>{spaceOptional}{equalSign}{spaceOptional}<rvalue> # such as <lvalue> = <rlvalue>
 ```
+
+The re of `statement` as follows.
+
+```
+# For statement
+<statement> := {complicatedExpression}{semicolon} # i.e. A more complicated expression followed by `;`
+```
+
+The re of `body` as follows.
+
+```
+# For statements
+<statements> := <statement>+ # one or more statements
+
+# For body
+<body> := <statements>
+```
+
 
 ### block 
 A block is made up of statements wrapped in curly braces `{}`.

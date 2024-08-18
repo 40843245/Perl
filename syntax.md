@@ -168,7 +168,6 @@ Before we define `identifier` with re, we define some basic data type in re firs
 
 # For basic data type
 ## For integer
-
 {nonnegativeInteger} := {digit}+
 {positiveInteger} := {nonzeroDigit}({digit})*
 {negativeInteger} := {minus}{positiveInteger}
@@ -192,7 +191,6 @@ Before we define `identifier` with re, we define some basic data type in re firs
 {doubleQuotationString} := ({doubleQuotation}{anyCharsExceptUnespacedDoubleQuotation}{doubleQuotation}
 
 {string} := ({singleQuotationString}|{doubleQuotationString})
-
 
 # For arrow
 {rightArrowWithEqualSign} := {equalSign}{greaterThen} # `=>`
@@ -381,8 +379,10 @@ The re of `hash` as follows.
 ```
 ## For hash
 {key} := {parameter} # key in key-value pair
-{val} := {parameter} # value in key-value pair
-{hashDefinition} := {leftParen}({key}{spaceOptional}({rightArrow}{spaceOptional}{val})*)?{rightParen} # such as `()`, `(1)`, `("apple","banana")` which is equivalent to `qw(apple banana)`
+{val} := ({parameter}|{expression}) # value in key-value pair
+{pair} := {key}{spaceOptional}{rightArrow}{spaceOptional}{val} # pair value in key-value pair
+{pairs} := {pair}+ # one or more pairs
+{hashDefinition} := {leftParen}{spaceOptional}{pairs}{spaceOptional}{rightParen} # such as `()`, `(1)`, `("apple","banana")` which is equivalent to `qw(apple banana)`
 ```
 
 
@@ -510,7 +510,7 @@ The re of `expreesion` with assignment operator (`=`) as follows.
 
 ```
 # For expression
-## # For expression with assignment
+## For expression with assignment
 <expreesionWithAssignment> := <lvalue>{spaceOptional}{equalSign}{spaceOptional}<rvalue> # such as <lvalue> = <rlvalue>
 ```
 
@@ -3057,6 +3057,13 @@ To create a class, follow these steps.
 - use the statement `package <className>;` at begin.
 - save the file as `<className>.pm`.
 
+The re of `<className>` as follows.
+
+```
+# For class
+## About class name.
+<className> := {identifier}
+```
 > [!IMPORTANT]
 > The class name and package name must be consistent.
 
@@ -3095,25 +3102,30 @@ sub new{
 > The syntax of `bless` function as follows. 
 >
 > ```
-> my (<class>,<args>) = @_;
-> my <objectName> = bless <reference>, <class>;
-> ```
-> 
-> where
->
-> ```
-> <attrPair> := <attrName> 
-> ```
->
-> and
-> 
-> ```
-> <reference> := \{
->		
-> \}
+> my (<classVar>,<classArgs>) = @_;
+> my <objectName> = bless <reference>, <classVar>;
 > ```
 >
 > For more details,see [What exactly does Perl's "bless" do?](https://stackoverflow.com/questions/392135/what-exactly-does-perls-bless-do)
+
+The re of `<classVar>` as follows.
+
+```
+## About the class variable name in class definition
+<classVar> := {basicTypeVariable} # i.e. `$` followed by the class variable name.
+```
+
+The re of `<reference>` as follows.
+
+```
+<reference> := {leftCurlyBracket}{spaceOptional}{pairs}{spaceOptional}{rightCurlyBracket}
+```
+
+The re of `<objectName>` as follows.
+
+```
+<objectName> := {identifier}
+```
 
 4. 
 

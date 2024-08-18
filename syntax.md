@@ -2457,8 +2457,281 @@ where
 ```
 <subroutineName> is defined in above section.`
 ```
-
 [define a subroutine](#define-a-subroutine)
 
++ Example 1:
+
+```
+sub say_something{
+	print "Hi, this is the first subroutine\n";
+}
+
+&say_something;
+say_something();
+```
+
+will output
+
+```
+Hi, this is the first subroutine
+Hi, this is the first subroutine
+```
+
+In some cases, the ampersand ( &) is required, for example:
+
+- When you use a reference that refers to the subroutine name.
+
++ Example 2:
+
+```
+sub say_something{
+	print "Hi, this is the first subroutine\n";
+}
+
+&say_something;
+say_something();
+
+$subref = \&say_something;
+
+print $subref."\n";
+
+&$subref;
+&{$subref};
+```
+
+will output
+
+```
+Hi, this is the first subroutine
+Hi, this is the first subroutine
+CODE(0x2ac292c)
+Hi, this is the first subroutine
+Hi, this is the first subroutine
+```
+
+#### subroutine with arguments
+
++ Example 1:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+print &sum(1..10), "\n";
+
+sub sum{
+	my $total = 0;
+	for my $i(@_){
+		$total += $i;
+	}
+	return $total;
+}
+```
+
+will output
+
+```
+55
+```
+
+#### return a value in subroutine
+
++ Example 1:
+  
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+print &say_hi , "\n";
+sub say_hi{
+	my $name = 'Bob';
+	print "Hi $name \n";
+	$name;
+}
+```
+
+will output
+
+```
+Hi Bob 
+Bob
+```
+
++ Example 2:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+print &say_hi , "\n";
+sub say_hi{
+	my $name = 'Bob';
+	print "Hi $name \n";
+	return $name;
+}
+```
+
+will output
+
+```
+Hi Bob 
+Bob
+```
+
++ Example 3:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my @a = ();
+my $j = min(@a);
+
+if(defined $j){
+   print("Min of @a is $j \n");
+}else{
+   print("The array is empty.\n");
+}
+
+my @b = (100,12,31);
+my $k = min(@b);
+
+if(defined $k){
+  print("Min of @b is $k \n");
+}else{
+   print("The array b is empty.\n");
+}
+
+sub min{
+   my $m = shift;
+   return undef unless defined $m;
+   for (@_){
+      $m = $_ if $m > $_;
+   }
+   return $m;
+}
+```
+
+will ouput
+
+```
+The array is empty.
+Min of 100 12 31 is 12 
+```
+
++ Example 4:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my $a = 10;
+my $b = 20;
+
+do_something($a,$b);
+
+print "after calling subroutine a = $a, b = $b \n";
+
+sub do_something{
+	$_[0] = 1;
+	$_[1] = 2;
+}
+```
+
+will output
+
+```
+after calling subroutine a = 1, b = 2 
+```
+
++ Example 5:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my $a = 10;
+my $b = 20;
+
+do_something($a,$b);
+
+print "after calling subroutine a = $a, b = $b \n";
+
+sub do_something{
+	my ($p1,$p2) = @_;
+	$p1 = 1;
+	 $p2 = 2;
+}
+```
+
+will output
+
+```
+after calling subroutine a = 10, b = 20
+```
+
++ Example 6:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my @a = (1,3,2,6,8,4,9);
+
+my $m = &max(\@a);
+
+print "The max of @a is $m\n";
+
+sub max{
+    my $aref = $_[0];
+    my $k = $aref->[0];
+
+    for(@$aref){
+        $k = $_ if($k < $_);
+    }
+    return $k;
+}
+```
+
+will output
+
+```
+The max of 1 3 2 6 8 4 9 is 9
+```
+
++ Example 7:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my @a = (1,3,2,6,7);
+my @b = (8,4,9);
+
+my @c = pops(\@a,\@b);
+print("@c \n"); # 7, 9
+
+sub pops{
+	my @ret = ();
+	for my $aref(@_){
+		push(@ret, pop @$aref);
+	}
+	return @ret;
+}
+```
+
+will output
+
+```
+7 9 
+```
 [^1]: [ideone online IDE](https://ideone.com)
 

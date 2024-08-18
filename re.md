@@ -252,4 +252,9 @@ The special characters in re includes
 # For class
 ## About class name.
 <className> := {identifier}
+
+## About the class variable name in class definition
+<classVar> := {basicTypeVariable} # i.e. `$` followed by the class variable name.
+<reference> := {leftCurlyBracket}{spaceOptional}{pairs}{spaceOptional}{rightCurlyBracket}
+<objectName> := {identifier}
 ```

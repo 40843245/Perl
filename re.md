@@ -240,6 +240,9 @@ The special characters in re includes
 ## For expression with assignment
 <expreesionWithAssignment> := <lvalue>{spaceOptional}{equalSign}{spaceOptional}<rvalue> # such as <lvalue> = <rlvalue>
 
+# For block
+<block> := {leftCurlyBracket}{body}{rightCurlyBracket}
+
 # For statement
 <statement> := {complicatedExpression}{semicolon} # i.e. A more complicated expression followed by `;`
 
@@ -257,4 +260,5 @@ The special characters in re includes
 <classVar> := {basicTypeVariable} # i.e. `$` followed by the class variable name.
 <reference> := {leftCurlyBracket}{spaceOptional}{pairs}{spaceOptional}{rightCurlyBracket}
 <objectName> := {identifier}
+
 ```

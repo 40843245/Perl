@@ -474,6 +474,9 @@ will throw a runtime error in ideone[^1]
 
 ![image](https://github.com/user-attachments/assets/d36501d5-2620-4f95-a109-a3c77db213f3)
 
+> [!TIP]
+> For what the `print` function, see [`print` section](#print)
+
 See [block section](#block).
 
 #### declaring local variables
@@ -506,10 +509,10 @@ The re of `rvalue` (i.e. right value, right hand side of equal sign) as follows.
 <rvalue> := {complicatedExpression} # Definition of {complicatedExpression}, see above.
 ```
 
-The re of `expreesion` with assignment operator (`=`) as follows.
+The re of `expression` with assignment operator (`=`) as follows.
 
 ```
-# For expression
+# For other expression
 ## For expression with assignment
 <expreesionWithAssignment> := <lvalue>{spaceOptional}{equalSign}{spaceOptional}<rvalue> # such as <lvalue> = <rlvalue>
 ```
@@ -521,16 +524,26 @@ The re of `statement` as follows.
 <statement> := {complicatedExpression}{semicolon} # i.e. A more complicated expression followed by `;`
 ```
 
-The re of `body` as follows.
+The re of `statements` as follows.
 
 ```
 # For statements
 <statements> := <statement>+ # one or more statements
+```
 
+The re of `body` as follows.
+
+```
 # For body
 <body> := <statements>
 ```
 
+The re of `block` as follows.
+
+```
+# For block
+<block> := {leftCurlyBracket}{body}{rightCurlyBracket}
+```
 
 ### block 
 A block is made up of statements wrapped in curly braces `{}`.
@@ -651,94 +664,26 @@ $y=$x+5;
 
 First, it access the value of variable whose name is `x`. Then it plus `5`. Finally, it assignment the value into the variable whose name is `y`.
 
-### print 
-#### print() function
-Use `print()` function to print the value of an expression.
-
-> [!CAUTION]
-> The `print()` function does NOT print a new line after print the value.
+### function 
+#### define your own function
+> [!TIP]
+> You can NOT directly define your own function in Perl since Perl treats functions as subroutines.
 >
-> To print a new line after print the value, please first concatenate the value and new line (`"\n"`) then use `print()` function. Or simply call `print("\n")` after using `print()` function.
-
-+ Example 1:
-
-```
-print("Hello World");
-print("This is Perl");
-```
-
-will output
-
-```
-Hello WorldThis is Perl
-```
-
-***NOT***
-
-```
-Hello World
-This is Perl
-```
-
-+ Example 2:
-
-```
-print("Hello World");
-print("\n");
-print("This is Perl");
-print("\n");
-```
-
-will output
-
-```
-Hello World
-This is Perl
-```
-
-+ Example 3:
-
-```
-print("Hello World");
-print("\n");
-print("This is Perl");
-print("\n");
-```
-
-will output
-
-```
-Hello World
-This is Perl
-```
-
-> [!NOTE]
-> Other style of `print` function is NOT to wrapp the value for print with `()`.
+> However, you can define a subroutine to do same thing.
 >
-> Such as
+> For how to define your own subroutine, see [`subroutine` section](#subroutine).
+
+#### call a function
+> [!IMPORTANT]
+> There are two styles to call a function,
 >
-> ```
-> print("Hello World");
-> ```
+> 1. With a pair of parenthesis `()`. Such as `print("\n");`
+> 2. Without a pair of parenthesis `()`, use a whitespace before parameter list. Such as `print "\n";`
 >
-> is equivalent to
+> However, in some cases, one can NOT use two styles.
 >
-> ```
-> print "Hello World" ;
-> ```
+> If you read the above text carefully, then the second style is NOT applied to those for **ZERO** parameters.
 
-> [!CAUTION]
-> There are **NO** built-in function `println()`.
-
-Wrong Example:
-
-+ Wrong Example 1:
-
-![image](https://github.com/user-attachments/assets/430d419a-80ec-46f9-9401-7048a4b46a88)
-
-+ Wrong Example 2:
-
-![image](https://github.com/user-attachments/assets/fbb3001b-5bef-4269-b872-54fa2981c282)
 
 ### comment
 #### single line comment
@@ -3242,6 +3187,143 @@ It will output as follows.
 
 For details, see [Perl OOP](https://www.perltutorial.org/perl-oop/).
 
+### built-in function
+#### print 
+Use `print()` function to print the value of an expression.
+
+> [!CAUTION]
+> The `print()` function does NOT print a new line after print the value.
+>
+> To print a new line after print the value, please first concatenate the value and new line (`"\n"`) then use `print()` function. Or simply call `print("\n")` after using `print()` function.
+
++ Example 1:
+
+```
+print("Hello World");
+print("This is Perl");
+```
+
+will output
+
+```
+Hello WorldThis is Perl
+```
+
+***NOT***
+
+```
+Hello World
+This is Perl
+```
+
++ Example 2:
+
+```
+print("Hello World");
+print("\n");
+print("This is Perl");
+print("\n");
+```
+
+will output
+
+```
+Hello World
+This is Perl
+```
+
++ Example 3:
+
+```
+print("Hello World");
+print("\n");
+print("This is Perl");
+print("\n");
+```
+
+will output
+
+```
+Hello World
+This is Perl
+```
+
+> [!NOTE]
+> Other style of `print` function is NOT to wrapp the value for print with `()`.
+>
+> Such as
+>
+> ```
+> print("Hello World");
+> ```
+>
+> is equivalent to
+>
+> ```
+> print "Hello World" ;
+> ```
+
+> [!CAUTION]
+> There are **NO** built-in function `println()`.
+
+Wrong Example:
+
++ Wrong Example 1:
+
+![image](https://github.com/user-attachments/assets/430d419a-80ec-46f9-9401-7048a4b46a88)
+
++ Wrong Example 2:
+
+![image](https://github.com/user-attachments/assets/fbb3001b-5bef-4269-b872-54fa2981c282)
+
+#### sort
+There are three forms of `sort` function.
+
+```
+sort <listTypeVariable>;
+sort <block> <listTypeVariable>;
+sort <subroutineName> <listTypeVariable>;
+```
+
++ The first form 
+
+```
+sort <listTypeVariable>;
+```
+
+will sort the `<listTypeVariable>` with default sort algorithm (here is, in alphabetical order) and return the sorted list (as `sort` function is NOT in-place).
+
++ The second form
+
+```
+sort <block> <listTypeVariable>;
+```
+
+will sort the `<listTypeVariable>` with algorithm defined in `<block>` and return the sorted list (as `sort` function is NOT in-place).
+  
++ The third form
+
+```
+sort <subroutineName> <listTypeVariable>;
+```
+
+will sort the `<listTypeVariable>` with algorithm defined in `<subroutineName>` and return the sorted list (as `sort` function is NOT in-place).
+
+For more details and examples, see [`sort in array` section](#sort-in-array).
+
+#### reverse
+It is often used with `sort` function.
+
+It can be sort the array or list reversely.
+
+The form as follows.
+
+```
+reverse sort ...
+```
+
+
+
 ### [Perl DBI(Database Independent) module](https://www.perltutorial.org/perl-dbi/)
 To use Perl DBI module, please follow these steps.
 
@@ -3349,4 +3431,52 @@ while(($lname,$fname,$ext) = $sth->fetchrow()){
 $sth->finish();
 $dbh->disconnect();
 ```
+
++ Example 2:
+
+```
+#!/usr/bin/perl
+use strict;
+use warnings;
+use DBI;
+
+my $dbh = DBI->connect("DBI:mysql:classicmodels",'root','');
+
+die "failed to connect to MySQL database:DBI->errstr()" unless($dbh);
+
+# prepare SQL statement
+my $sql = <<EOF;
+ SELECT lastname, firstname, extension 
+ FROM employees 
+ WHERE lastname = ? OR firstname = ?
+EOF
+
+my $sth = $dbh->prepare($sql)
+                 or die "prepare statement failed: $dbh->errstr()";
+
+my($lname,$fname,$ext);
+my($name, $answer);
+
+print("\nPlease enter the employee firstname or lastname:");
+while(<STDIN>){
+   $name = $_;
+   chomp($name);
+   $sth->execute($name,$name) or die "execution failed: $dbh->errstr()"; 
+   # loop through each row of the result set, and print it
+   while(($lname,$fname,$ext) = $sth->fetchrow()){
+      print("$lname, $fname\t$ext\n");                   
+   }
+
+   print("\nDo you want to continue? (Y/N)");
+   $answer = <STDIN>;
+   chomp($answer);
+   last if $answer eq 'N';
+
+   print("\nPlease enter the employee firstname or lastname:");
+}
+
+$sth->finish();
+$dbh->disconnect();
+```
+
 [^1]: [ideone online IDE](https://ideone.com)

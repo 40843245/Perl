@@ -236,12 +236,9 @@ The special characters in re includes
 ## For right value
 <rvalue> := {complicatedExpression} # Definition of {complicatedExpression}, see above.
 
-# For expression
+# For other expression
 ## For expression with assignment
 <expreesionWithAssignment> := <lvalue>{spaceOptional}{equalSign}{spaceOptional}<rvalue> # such as <lvalue> = <rlvalue>
-
-# For block
-<block> := {leftCurlyBracket}{body}{rightCurlyBracket}
 
 # For statement
 <statement> := {complicatedExpression}{semicolon} # i.e. A more complicated expression followed by `;`
@@ -251,6 +248,9 @@ The special characters in re includes
 
 # For body
 <body> := <statements>
+
+# For block
+<block> := {leftCurlyBracket}{body}{rightCurlyBracket}
 
 # For class
 ## About class name.

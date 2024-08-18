@@ -3301,10 +3301,15 @@ if(!$dbh){
 
 5. Do some operations in MySQL database server.
 
-To fully execute a MySQL command in Perl, one has to do same thing in PHP.
+To fully execute a MySQL command in Perl, one has to do similar thing like [PDO style in PHP](https://www.php.net/manual/en/class.pdo.php).
+        1. prepare the command via `prepare` method. And it will return the SQL 
+	2. check it is success to run `prepare` method at runtime. If success, then continues next step. Otherwsie, print error message.
+        3. execute the command via `execute` method.
+	4. check it is success to run `execute` method at runtime. If success, then continues next step. Otherwsie, print error message.
+        5. do things you want.
+	6. call the `finish` method.
 
-  1. er
-  2. 
+  
 6. Disconnect the connection.
 
 > [!IMPORTANT]
@@ -3316,9 +3321,32 @@ To disconnect the connection. Simply use
 $dbh->disconnect();
 ```
 
++ Example 1:
 
+```
+#!/usr/bin/perl
+use strict;
+use warnings;
+use DBI;
 
+my $dbh = DBI->connect("DBI:mysql:classicmodels",'root','');
 
+die "failed to connect to MySQL database:DBI->errstr()" unless($dbh);
 
+# prepare SQL statement
+my $sth = $dbh->prepare("SELECT lastname, firstname, extension FROM employees")
+                   or die "prepare statement failed: $dbh->errstr()";
+
+$sth->execute() or die "execution failed: $dbh->errstr()"; 
+
+my($lname,$fname,$ext);
+
+# loop through each row of the result set, and print it
+while(($lname,$fname,$ext) = $sth->fetchrow()){
+   print("$lname, $fname\t$ext\n");                   
+}
+
+$sth->finish();
+$dbh->disconnect();
+```
 [^1]: [ideone online IDE](https://ideone.com)
-

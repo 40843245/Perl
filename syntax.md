@@ -3127,7 +3127,197 @@ The re of `<objectName>` as follows.
 <objectName> := {identifier}
 ```
 
-4. 
+For example,
+
+```
+# init product with serial, name and price
+sub new{
+    my ($class,$args) = @_;
+    my $self = bless { serial => $args->{serial},
+                       name => $args->{name}, 
+                       price => $args->{price}
+                     }, $class;
+}
+```
+
+4. To instantiate an `Product` class in a new program, use the following code snippets.
+
+```
+#!/usr/bin/perl
+use strict;
+use warnings;
+
+use Product;
+
+my $iphone = Product->new({
+                          serial =>"100",
+                          name => "iPhone 5", 
+                  price => 650.00});
+```
+
+5. That's done. The complete code snippets as follows. 
+
+In `Product.pm`,
+
+```
+package Product;
+
+use strict;
+use warnings;
+
+# init product with serial, name and price
+sub new{
+    my ($class,$args) = @_;
+    my $self = bless { serial => $args->{serial},
+                       name => $args->{name}, 
+                       price => $args->{price}
+                     }, $class;
+}
+# get name of the product
+sub get_name{
+   my $self = shift;
+   return $self->{name};
+}
+
+# set new name for the product
+sub set_name{
+   my ($self,$new_name) = @_;
+   $self->{name} = $new_name;
+}
+
+# get price of the product
+sub get_price{
+   my $self = shift;
+   return $self->{price};
+}
+
+# set price for the product
+sub set_price{
+   my ($self,$new_price) = @_;
+   $self->{price} = $new_price;
+}
+# get serial
+sub get_serial{
+   my $self = shift;
+   return $self->{serial};   
+}
+# set serial
+sub set_serial{
+   my ($self,$new_price) = @_;
+   $self->{price} = $new_price;
+}
+# return formatted string of the product
+sub to_string{
+   my $self = shift;
+   return "Serial: $self->{serial}\nName: $self->{name}\nPrice: $self->{price}USD\n";
+}
+
+1;
+```
+
+In other program (e.g. `oop1.pl`),
+
+```
+#!/usr/bin/perl
+use strict;
+use warnings;
+
+use Product;
+
+my $iphone = Product->new({
+                          serial =>"100",
+                          name => "iPhone", 
+		          price => 650.00});
+my $nexus = Product->new({ serial =>"101",
+			   name => "Nexus",
+                           price => 299.00});
+
+print $iphone->to_string();
+print $nexus->to_string();
+```
+
+It will output as follows.
+
+![image](https://github.com/user-attachments/assets/dd09f89f-d7c4-4119-bac0-d374ad49eaea)
+
+For details, see [Perl OOP](https://www.perltutorial.org/perl-oop/).
+
+### [Perl DBI(Database Independent) module](https://www.perltutorial.org/perl-dbi/)
+To use Perl DBI module, please follow these steps.
+
+1. Ensure that you have a MySQL server installed on your system.
+2. Installing `DBD::mysql` module in Perl (can be done with `CPAN`).
+
+To do so, running these commands in terminal.
+
+```
+perl -MCPAN -e shell
+```
+
+Example result:
+
+```
+C:\>perl -MCPAN -e shell
+
+cpan shell -- CPAN exploration and modules installation (v1.9800)
+Enter 'h' for help.
+```
+
+and installing `DBD::mysql` module in Perl with `CPAN` by running these commands in terminal. 
+
+```
+install DBD:mysql
+```
+
+Example result:
+
+```
+cpan> install DBD:mysql
+```
+
+3. Connecting to MySQL database server.
+
+To connect to MySQL database, you use the following syntax.
+
+```
+my $dbh = DBI->connect("DBI:mysql:classicmodels",'root','');
+```
+
+4. Check the connection to MySQL database server.
+
+To check the connection to MySQL database server, simply check the variable `$dbh` is null. 
+
+If it is null, then it means the connection failed.
+
+Otherwise, then it means the connection success.
+
+```
+if(!$dbh){
+ die "failed to connect to MySQL database DBI->errstr()";
+}else{
+ print("Connected to MySQL server successfully.\n");
+}
+```
+
+5. Do some operations in MySQL database server.
+
+To fully execute a MySQL command in Perl, one has to do same thing in PHP.
+
+  1. er
+  2. 
+6. Disconnect the connection.
+
+> [!IMPORTANT]
+> Always disconnect or close the connection after it will NOT be used. 
+
+To disconnect the connection. Simply use
+
+```
+$dbh->disconnect();
+```
+
+
+
 
 
 [^1]: [ideone online IDE](https://ideone.com)

@@ -73,9 +73,52 @@ Before we define `identifier` with re, we define some basic data type in re firs
 {dollarSign} := \$
 {atSign} := @
 {hashTagSign} := \#
+{semicolon} := ;
+{colon} := : 
+
+{whitespace} := # a whitespace " "
+{tab} := \t # a tab "\t"
+{space} := ({whitespace}|{tab})
+{spaces} := {space}+
+{spacesOptional} := {space}*
+
+# For quotation
+{singleQuotation} := ' # '
+{doubleQuotation} := " # "
+{backslash} := \\ # \
+
+# For basic data type
+## For integer
+
+{nonnegativeInteger} := {digit}+
+{positiveInteger} := {nonzeroDigit}({digit})*
+{negativeInteger} := {minus}{positiveInteger}
+
+{integer} := ({negativeInteger}|{nonnegativeInteger})
+
+## For float
+{float} := (({plus}|{minus})? {nonnegativeInteger}){dot}({positiveInteger})
+
+## For number
+{number} := ({integer}|{float})
+
+## For string
+{anyCharExceptSingleQuotation} := [^{singleQuotation}]
+{anyCharsExceptUnespacedSingleQuotation}:= ({anyCharExceptSingleQuotation}*{backslash}{singleQuotation}?)+
+
+{anyCharExceptDoubleQuotation} := [^{doubleQuotation}]
+{anyCharsExceptUnespacedDoubleQuotation}:= ({anyCharExceptDoubleQuotation}*{backslash}{doubleQuotation}?)+
+
+{singleQuotationString} := ({singleQuotation}{anyCharsExceptUnespacedSingleQuotation}{singleQuotation}
+{doubleQuotationString} := ({doubleQuotation}{anyCharsExceptUnespacedDoubleQuotation}{doubleQuotation}
+
+{string} := ({singleQuotationString}|{doubleQuotationString})
+
+# For arrow
+{rightArrowWithEqualSign} := {equalSign}{greaterThen} # `=>`
 
 # For assignment
-{assigment} := {equalSign}
+{assigment} := {equalSign} # `=`
 
 # For comparisons
 ## For comparisons of two numbers and two booleans
@@ -89,7 +132,9 @@ Before we define `identifier` with re, we define some basic data type in re firs
 {ge} := {greaterThanSign}{equalSign} # greater than or equal to
 
 ## For other comparisons of two numbers
-{numberComparisonInPerl} := {lessThanSign}{equalSign}{greaterThanSign} # The operator `<=>`acts strcmp in C. For two numbers `x` and `y`, it will return ` iff `x>y`. It will return 0 iff `x==y`. It will return -1 iff `x<y`.
+{numbercmp} := {lessThanSign}{equalSign}{greaterThanSign} # The operator `<=>`acts strcmp in C. For two numbers `x` and `y`, it will return ` iff `x>y`. It will return 0 iff `x==y`. It will return -1 iff `x<y`.
+
+{numberComparisonOperator} := ({eq}|{ne}|{lt}|{gt}|{le}|{ge}|{numbercmp})
 
 ## For comparisons of two strings.
 {eqString} := eq
@@ -98,30 +143,22 @@ Before we define `identifier` with re, we define some basic data type in re firs
 {gtString} := gt
 {leString} := le
 {geString} := ge
- 
-# For quotation
-{singleQuotation} := '
-{doubleQuotation} := "
-{backslash} := \\
 
-{nonnegativeInteger} := {digit}+
-{positiveInteger} := {nonzeroDigit}({digit})*
-{negativeInteger} := {minus}{positiveInteger}
+{stringComparisonOperator} := ({eqString}|{neString}|{ltString}|{gtString}|{leString}|{geString})
 
-{integer} := ({negativeInteger}|{nonnegativeInteger})
+# For expression
+## About numbers
+{numberExpression} := ({number}|{variableWithPrefix}){spacesOptional}{numberComparisonOperator}{spacesOptional}({number}|{variableWithPrefix})
 
-{float} := (({plus}|{minus})? {nonnegativeInteger}){dot}({positiveInteger})
+## About string
+{numberExpression} := ({string}|{variableWithPrefix}){spacesOptional}{stringComparisonOperator}{spacesOptional}({string}|{variableWithPrefix})
+```
 
-{anyCharExceptSingleQuotation} := [^{singleQuotation}]
-{anyCharsExceptUnespacedSingleQuotation}:= ({anyCharExceptSingleQuotation}*{backslash}{singleQuotation}?)+
+The re of `variable` as follows.
 
-{anyCharExceptDoubleQuotation} := [^{doubleQuotation}]
-{anyCharsExceptUnespacedDoubleQuotation}:= ({anyCharExceptDoubleQuotation}*{backslash}{doubleQuotation}?)+
-
-{singleQuotationString} := ({singleQuotation}{anyCharsExceptUnespacedSingleQuotation}{singleQuotation}
-{doubleQuotationString} := ({doubleQuotation}{anyCharsExceptUnespacedDoubleQuotation}{doubleQuotation}
-
-{string} := ({singleQuotationString}|{doubleQuotationString})
+```
+{variableName} := {identifier}
+{variable} := {vaariableName}
 ```
 
 Then we define `keyword` in re.
@@ -136,12 +173,13 @@ The re of `identifier` as follows.
 {identifier} := {alphabet}({alphabet}|{digit}|{underscore})*
 ```
 
-The re of `variable` as follows.
+{hashTypeVariable} := {hashTagSign}{variable}
+
 
 ```
-{variableName} := {identifier}
-{variable} := {variable}
+{variableWithPefix} := {basicTypeVariable}|{arrayTypeVariable}|{hashTypeVariable}
 ```
+
 
 The re of `variable` with basic type as follows.
 
@@ -158,9 +196,7 @@ The re of `variable` with array type as follows.
 The re of `variable` with hash type as follows.
 
 ```
-{hashTypeVariable} := {hashTagSign}{variable}
 ```
-
 > [!NOTE]
 > In Perl, according to different type of return value about a variable, it will add different prefix. It will be discussed later.
 >
@@ -274,10 +310,20 @@ $x=10;
 
 It will define a variable whose name is `x` and assign the value `10` into the variable `x`.
 
-The re of an `expression` with an assignment operator as follows.
+The re of an `expression` as follows.
 
 ```
+{expressionString} := {}
+```
 
+The re of `rvalue` (i.e. right value, right hand side of equal sign) as follows.
+
+```
+<rvalue> := {expression}
+```
+
+```
+<expreesionWihAssignment> := <lvalue>{equalSign}<rvalue>
 ```
 
 ### block 
@@ -2733,5 +2779,141 @@ will output
 ```
 7 9 
 ```
+
+### module 
+#### defining a module
+To define a module, use `package` keyword at begin, followed by the package name (without file extension). And save the file as package name with file extension `.pm`. For more details, see the following example.
+
+#### use the module
+To use a module, use `use` keyword, followed by the package name (without file extension).  For more details, see the following example.
+
++ Example 1:
+
+To define a `FileLogger` module in Perl, write code that begins with the statement `package FileLogger;`. And save it as `FileLogger.pm`. Such as
+
+```
+package FileLogger;
+# FileLogger.pm
+
+use strict;
+use warnings;
+
+my $LEVEL = 1; # default log level
+
+sub open{
+   my $logfile = shift;
+   # open log file for appending
+   open(LFH, '>>', $logfile) or die "cannot open the log file $logfile: $!";
+   # write logged time:
+   print LFH "Time: ", scalar(localtime), "\n";
+}
+
+sub log{
+   my($log_level,$log_msg) = @_;
+   # append log if the passed log level is lower than
+   # the module log level
+   if($log_level <= $LEVEL){
+      print LFH "$log_msg\n";
+   }
+}
+
+sub close{
+   close LFH;
+}
+
+sub set_level{
+   # set the log level
+   my $log_level = shift;
+   # check if the passed log level is a number
+   if($log_level =~ /^\d+$/){
+      $LEVEL = $log_level;
+   }
+}
+
+1;
+```
+
+==================================
+
+To use the module `FileLogger`, write code with statement `use FileLogger;`. Such as
+
+```
+#!/usr/bin/perl
+use strict;
+use warnings;
+
+use FileLogger;
+
+FileLogger::open("logtest.log");
+
+FileLogger::log(1,"This is a test message");
+
+FileLogger::close();
+```
+
+### class
+To create a class, follow these steps.
+
+1. Define a package with `className`. According to above section, to do that, one has to 
+
+- use the statement `package <className>;` at begin.
+- save the file as `<className>.pm`.
+
+> [!IMPORTANT]
+> The class name and package name must be consistent.
+
+The part of code will looks like this
+
+`Product.pm`
+
+```
+package Product;
+```
+
+2. Define a subroutine with `new` keyword.
+
+The part of code will looks like this
+
+```
+sub new{
+	# body of class.
+}
+```
+
+3. To define the member of the class for instantiating a new object, use `bless` keyword, followed by a wrapped `{}`, the keys in `{}` are members of class. Such as
+
+```
+# init product with serial, name and price
+sub new{
+    my ($class,$args) = @_;
+    my $self = bless { serial => $args->{serial},
+                       name => $args->{name}, 
+                       price => $args->{price}
+                     }, $class;
+}
+```
+
+> [!NOTE]
+> The syntax of `bless` function as follows.
+>
+> ```
+> my (<class>,<args>) = @_;
+> my <objectName> = bless <reference>, <class>;
+> ```
+> 
+> where
+>
+> ```
+> <attrPair> := <attrName> 
+> ```
+> 
+> <reference> := \{
+>		
+> \}
+> ```
+
+4. 
+
+
 [^1]: [ideone online IDE](https://ideone.com)
 

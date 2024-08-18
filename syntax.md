@@ -119,7 +119,8 @@ Before we define `identifier` with re, we define some basic data type in re firs
 {underscore} := _
 {dot} := \.
 {plus} := \+ # `+`
-{minus} := \- # `-`
+{dash} := \- # `-`
+{minus} := {dash} # `-`
 {multiplication} := \* # `*`
 {division} := / # `/`
 {integerDivision} := // # `//`
@@ -144,6 +145,13 @@ Before we define `identifier` with re, we define some basic data type in re firs
 {rightCurlyBracket} := \} # `}`
 {comma} := , # `,`
 
+# For some annotations
+{repetitionString} := x # The small letter `x`
+
+# Mixture of symbols
+{rightArrow} := {equalSign}{greaterThanSign} # `=>`
+{memberOfPointer} := {dash}{greaterThanSign} # `->`
+
 # For space
 {whitespace} := # a whitespace  ` `
 {tab} := \t # a tab `\t`
@@ -157,7 +165,6 @@ Before we define `identifier` with re, we define some basic data type in re firs
 {backslash} := \\ # `\` 
 {ampersand} := & # `&`
 {asterisk} := \* # `*`
-
 
 # For basic data type
 ## For integer
@@ -185,6 +192,7 @@ Before we define `identifier` with re, we define some basic data type in re firs
 {doubleQuotationString} := ({doubleQuotation}{anyCharsExceptUnespacedDoubleQuotation}{doubleQuotation}
 
 {string} := ({singleQuotationString}|{doubleQuotationString})
+
 
 # For arrow
 {rightArrowWithEqualSign} := {equalSign}{greaterThen} # `=>`
@@ -341,10 +349,10 @@ The re of `expression` as follows.
 ```
 # For expression
 ## About numbers
-{numberExpression} := ({number}|{call}|{basicTypeVariable}){spacesOptional}({numberComparisonOperator}{spacesOptional}({number}|{call}|{basicTypeVariable}))* # expression about two numbers such as `3 + $var1`
+{numberExpression} := ({number}|{call}|{basicTypeVariable}){spacesOptional}((({numberComparisonOperator}|{arthimeticalOperator}){spacesOptional}({number}|{call}|{basicTypeVariable}))* # expression about two numbers such as `3 + $var1`
 
 ## About string
-{stringExpression} := ({string}|{call}|{basicTypeVariable}){spacesOptional}({stringComparisonOperator}{spacesOptional}({string}|{call}|{basicTypeVariable}))* # expression about two strings such as `"Hello World!\n"."This is Perl.\n"`
+{stringExpression} := ({string}|{call}|{basicTypeVariable}){spacesOptional}((({stringComparisonOperator}|{concatenationString}){spacesOptional}({string}|{call}|{basicTypeVariable}))|({repetiveString}{spacesOptional}({positiveInteger}|{call}|{basicTypeVariable})))* # expression about two strings such as `"Hello World!\n"."This is Perl.\n"`
 
 ## About simple expression
 {simpleExpression} := ({numberExpression}|{stringExpression}|{call})
@@ -352,6 +360,31 @@ The re of `expression` as follows.
 ## About more complicated expression
 {complicatedExpression} := ({simpleExpression}|{expressionWithAssignment}) # Definition of {expressionWithAssignment}, see below.
 ```
+
+The re of `array` as follows.
+
+```
+# For complicated data type
+## For array
+{arrayDefinition} := qw{leftParen}({parameter}({space}+{parameter})*)?{rightParen} # such as `qw()`, `qw(1)`, `qw(apple banana)` which is equivalent to `("apple","banana")`
+```
+
+The re of `list` as follows.
+
+```
+## For list
+{listDefinition} := {leftParen}({parameter}{spaceOptional}({comma}{spaceOptional}{parameter})*)?{rightParen} # such as `()`, `(1)`, `("apple","banana")` which is equivalent to `qw(apple banana)`
+```
+
+The re of `hash` as follows.
+
+```
+## For hash
+{key} := {parameter} # key in key-value pair
+{val} := {parameter} # value in key-value pair
+{hashDefinition} := {leftParen}({key}{spaceOptional}({rightArrow}{spaceOptional}{val})*)?{rightParen} # such as `()`, `(1)`, `("apple","banana")` which is equivalent to `qw(apple banana)`
+```
+
 
 > [!IMPORTANT]
 > A variable is case-sensitive. Such as `Var1` and `var1` are NOT same variables.
@@ -579,14 +612,6 @@ Hello
 
 > [!NOTE]
 > One expression can consist of one or many expressions.
-
-```
-{expressionUtility} := ({number}({minus}|{plus}|{multiplication}|{division}|{integerDivision}|{modulus}|{exponent}){number})|({minus}{number})
-```
-
-```
-{expression} := ({expressionUtility}+)|({leftValue}{assignment}{expressionUtility}+)
-```
 
 + Example 1:
 
@@ -3067,7 +3092,7 @@ sub new{
 ```
 
 > [!NOTE]
-> The syntax of `bless` function as follows.
+> The syntax of `bless` function as follows. 
 >
 > ```
 > my (<class>,<args>) = @_;
@@ -3079,11 +3104,16 @@ sub new{
 > ```
 > <attrPair> := <attrName> 
 > ```
+>
+> and
 > 
+> ```
 > <reference> := \{
 >		
 > \}
 > ```
+>
+> For more details,see [What exactly does Perl's "bless" do?](https://stackoverflow.com/questions/392135/what-exactly-does-perls-bless-do)
 
 4. 
 

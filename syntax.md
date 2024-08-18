@@ -3248,21 +3248,6 @@ Hello World
 This is Perl
 ```
 
-> [!NOTE]
-> Other style of `print` function is NOT to wrapp the value for print with `()`.
->
-> Such as
->
-> ```
-> print("Hello World");
-> ```
->
-> is equivalent to
->
-> ```
-> print "Hello World" ;
-> ```
-
 > [!CAUTION]
 > There are **NO** built-in function `println()`.
 
@@ -3322,6 +3307,7 @@ The form as follows.
 reverse sort ...
 ```
 
+### file handling
 
 
 ### [Perl DBI(Database Independent) module](https://www.perltutorial.org/perl-dbi/)

@@ -3689,6 +3689,22 @@ FileLogger::log(1,"This is a test message");
 FileLogger::close();
 ```
 
+### package
+Perl treats a module as a package. 
+
+Thus, one can use same way to create a package of way to create a module.
+
+While one can use same way to use a package of way to use a module.
+
+See [`module` section](#module).
+
+#### our 
+To declare global variables that are visible throughout your program or from external packages. Use `our` keyword before the variable. Such as
+
+```
+our $color = 'red';
+```
+
 ### class
 To create a class, follow these steps.
 

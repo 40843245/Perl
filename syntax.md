@@ -3095,7 +3095,9 @@ The array is empty.
 Min of 100 12 31 is 12 
 ```
 
-+ Example 4:
+#### modify passed value in subroutine
+
++ Example 1:
 
 ```
 #!/usr/bin/perl

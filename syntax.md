@@ -2531,6 +2531,268 @@ in C/C++.
 > + `<mainExpression>` can be an integer or enum.
 > + The value of `case` must be a constant and an integer.
 > + The statement `break;` is optional, however, there are different meanings. If there is NO statement `break;`, then it will NOT break the `switch`block  (i.e. it will continue to execute the `switch` block).
+
++ Example 1:
+
+These code snippets are equivalent.
+
+> [!WARNING]
+> The following code snippet only available in Perl 5.10 or above.
+
+```
+=begin
+In my notes at Github, the section `#####given` has this example.
+See https://github.com/40843245/Perl/blob/main/syntax.md#given
+=cut
+
+=begin
+Only available at Perl 5.10 or above.
+=cut
+
+=begin
+Equivalent to ex7_3_2.pl
+Equivalent to ex7_3_3.pl
+=cut
+
+use v5.10; # at least for Perl 5.10
+#use feature "switch";
+use warnings;
+use strict;
+
+my $color;
+my $code;
+
+print("Please enter a RGB color to get its code:\n");
+
+$color = <STDIN>;
+
+chomp($color);
+$color = uc($color);
+
+given($color){
+     when ('RED') {  $code = '#FF0000'; }
+     when ('GREEN') {  $code = '#00FF00'; }
+     when ('BLUE') {  $code = '#0000FF'; }
+     default{
+         $code = '';
+     }
+}
+if($code ne ''){
+   print("code of $color is $code \n");
+}
+else{
+    print("$color is not RGB color\n");
+}
+```
+
+> [!WARNING]
+> The following code snippet only available in Perl 5.12 or above.
+
+```
+=begin
+In my notes at Github, the section `#####given` has this example.
+See https://github.com/40843245/Perl/blob/main/syntax.md#given
+=cut
+
+=begin
+Only available at Perl 5.12 or above.
+=cut
+
+=begin
+Equivalent to ex7_3_1.pl
+Equivalent to ex7_3_3.pl
+=cut
+
+use v5.12; # at least for Perl 5.12
+#use feature "switch";
+use warnings;
+use strict;
+
+my $color;
+my $code;
+
+print("Please enter a RGB color to get its code:\n");
+
+$color = <STDIN>;
+
+chomp($color);
+$color = uc($color);
+
+# Only support in Perl 5.12 or above
+given($color){
+     $code = '#FF0000' when 'RED';
+     $code = '#00FF00' when 'GREEN';
+     $code = '#0000FF' when 'BLUE';
+     default{  $code = '';}
+}
+
+if($code ne ''){
+   print("code of $color is $code \n");
+}
+else{
+    print("$color is not RGB color\n");
+}
+```
+
+> [!WARNING]
+> The following code snippet only available in Perl 5.12 or above.
+
+```
+=begin
+In my notes at Github, the section `#####given` has this example.
+See https://github.com/40843245/Perl/blob/main/syntax.md#given
+=cut
+
+=begin
+Only available at Perl 5.12 or above.
+=cut
+
+=begin
+Equivalent to ex7_3_1.pl
+Equivalent to ex7_3_2.pl
+=cut
+
+use v5.12; # at least for Perl 5.12
+#use feature "switch";
+use warnings;
+use strict;
+
+my $color;
+
+print("Please enter a RGB color to get its code:\n");
+
+$color = <STDIN>;
+
+chomp($color);
+$color = uc($color);
+
+# Only support in Perl 5.12 or above
+print do{
+   given($color){
+     "#FF0000\n" when 'RED';
+     "#00FF00\n" when 'GREEN';
+     "#0000FF\n" when 'BLUE';
+     default { '';}
+   }
+}
+```
+
+The following example will demonstrate the relationship between the `given` block in Perl and `switch` block in C++.
+
++ Example 2:
+
+In Perl, `ex7_3_4.pl`
+
+```
+=begin
+In my notes at Github, the section `#####given` has this example.
+See https://github.com/40843245/Perl/blob/main/syntax.md#given
+=cut
+
+=begin
+Only available at Perl 5.12 or above.
+=cut
+
+=begin
+Equivalent to ex7_3_1.pl
+Equivalent to ex7_3_2.pl
+=cut
+
+use v5.12; # at least for Perl 5.12
+#use feature "switch";
+use warnings;
+use strict;
+
+my $number = 0;
+my $remainder = 0;
+my $input = "";
+my $code = "";
+
+print("Please enter a number:\n");
+$input = <STDIN>;
+$number = int($input);
+$remainder = $number % 3;
+given($remainder){
+	when(0){$code="zero";}
+	when(1){$code="one";}
+	when(2){$code="two";}
+	default{
+		$code = "";
+	}
+}
+
+if($code ne ""){
+	print("The $number % 3 gets $remainder which can be written as $code.\n");
+}else{
+	print("The $number is NOT a number.\n");
+}
+```
+
+In C++, `ex7_3_4.cpp`
+
+```
+/*
+In my notes at Github, the section `#####given` has this example.
+See https://github.com/40843245/Perl/blob/main/syntax.md#given
+=cut
+*/
+
+/*
+=begin
+Only available at C++
+=cut
+*/
+
+/*
+corresponding C++ code to ex7_4_1.pl
+*/
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main(){
+	int number=0;
+	int remainder=-1;
+	std::string code="";
+
+	std::cout<<"Please enter a number:"<<endl;
+	std::cin>>number;
+	remainder=number%3;
+	switch (remainder){
+		case 0:
+			code="zero";
+			break;
+		case 1:
+			code="one";
+			break;
+		case 2:
+			code="two";
+			break;	
+		default:
+			code="";
+			break;
+	}
+
+	if(code!=""){
+		std::cout<<"The "<<number<<" % 3 gets "<<remainder<<" which can be written as "<<code<<"."<<endl;
+	}else{
+		std::cout<<"The "<<number<<" is NOT a number."<<endl;
+	}
+	return 0;
+}
+```
+
+The input and output in `ex7_3_4.cpp`:
+
+```
+PS C:\Users\{USERNAME}\OneDrive\桌面\Perl\ex> g++ CH7/ex7_3_4.cpp -o CH7/ex7_3_4
+PS C:\Users\{USERNAME}\OneDrive\桌面\Perl\ex> CH7/ex7_3_4.exe
+Please enter a number:
+7 
+The 7 % 3 gets 1 which can be written as one.
+```
+
 ### mode
 #### strict mode
 

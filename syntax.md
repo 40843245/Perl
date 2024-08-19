@@ -2177,6 +2177,144 @@ loop
 ```
 
 #### conditional statement
+##### if
+In `if` function, the `<body>` which in `if` block or `<expression>` will be executed iff the `<condition>` is evaluated to true.
+
+There are two forms of `if` function in Perl.
+
++ First form: like `if` in C.
+```
+if(<condition>){
+	<body>
+}
+```
+
+> [!IMPORTANT]
+> Like it in C. If the block is omitted. Only the first statement after `if(...)` will be considered as in `<body>` block.
+>
+> Thus, in this case, if `<condition>` is evaluated to false, then the first statement `if(...)` will **NOT** be executed.
+>
+> Consider the following example,
+>
+> ```
+> if(false) 
+>	print("It may be executed.");
+> print("It will be always executed.");
+> ```
+>
+> is equivalent to
+>
+> ```
+> if(false){ 
+>	print("It may be executed.");
+> }
+> print("It will be always executed.");
+> ```
+
++ Second form: if there is only one expression as body, one can use this shorthand form.
+```
+<expression> if <condition> 
+```
+
+In second form, if `<condition>` is true, it will return `<expression>`. 
+
+Otherwise, it will return `undef`.
+
+The most commonly used example as follows.
+
+- Example 1:
+
+```
+$x=5;
+$expr=10;
+$condition=($x<5);
+
+print $expr if $condition==true;
+```
+
+is roughly equivalent to
+
+```
+$x=5;
+$expr=10;
+$condition=($x<5);
+
+if($conditon==true){
+	print($expr);
+}
+```
+
+In this example, it will output
+
+```
+10
+```
+
+##### if-else
+Like `if-else` in C. If `<condition>` is evaluated to true., `<body1>` which is in `if` block will be executed. Otherwise, `<body2>` which is in `else` block will be executed.
+
++ First form:
+```
+if(<condition>){
+	<body1>
+}else{
+	<body2>
+}
+```
+
+> [!IMPORTANT]
+> The above concepts can be applied to here.
+> 
+> Like it in C. If the block is omitted. Only the first statement after `if(...)` will be considered as in `<body1>` block. And is also for `<body2>` block in `else`.
+>
+> Consider the following example,
+>
+> ```
+> if(false) 
+>	print("It may be executed.");
+> else
+> 	print("It may be executed.");
+> print("It is NOT in if-else.");
+> ```
+>
+> is equivalent to
+>
+> ```
+> if(false) {
+>	print("It may be executed.");
+> }
+> else{
+> 	print("It may be executed.");
+> }
+> print("It is NOT in if-else.");
+> ```
+
+##### if-else-if
+Image that one puts another `if` in one `if-else` where `<body2>` in `else` does NOT wrapped with curly bracket `{}`. This form is made.
+
++ First form:
+  
+```
+if(<condition1>){
+	<body1>
+}else if(<condition2>){
+	<body2>
+}
+```
+
+this is another form.
+
+```
+if(<condition1>){
+	<body1>
+}else{
+	if(<condition2>){
+		<body2>
+	}
+}
+```
+
+We can also use mutliple nested `if-else` statement.
 
 ### mode
 #### strict mode
@@ -2444,6 +2582,47 @@ Press any key to continue . . .
 
 ### references
 
+> [!TIP]
+> The tip to remember the use of the annotation `->{}`.
+>
+> Consider following examples.
+>
+> An example that be applied to get element with index from array or list.
+> 
+> Given a reference in the statement `$rarray = \@array;` and a nonegative integer `$index`.
+> 
+> They are equivalent.
+>
+> ```
+> $$rarray[$index] # is noisy. One have to think about precedence.
+> ```
+>
+> ```
+> ${$rarray}[$index] # will get tendinitis! 
+> ```
+>
+> ```
+> $rarray->[$index] # recommended
+> ```
+>
+> It can also be applied to get element with key from hash. See the following example.
+> 
+> Given a reference in the statement `$rhash = \%hash;` and a key with string type `$key`.
+> 
+> They are equivalent.
+>
+> ```
+> $$rhash{$key} # is noisy. One have to think about precedence.
+> ```
+>
+> ```
+> ${$rhash}{$key}  # will get tendinitis! 
+> ```
+>
+> ```
+> $$rhash->{$key}  # recommended
+> ```
+
 + Example 1:
 
 ```
@@ -2498,7 +2677,6 @@ will output
 ```
 
 + Example 3:
-
 
 ```
 #!/usr/bin/perl
@@ -2611,6 +2789,23 @@ whatever
 whatever
 ```
 
+#### no automatic dereferencing
+In perl, there are NO automatic dereferencing. So, one has to explicitly dereference using the constructs just described. 
+
+Like it in C, in which you have to say *p to indicate the object pointed to by p. 
+
+Compare the following examples.
+
+```
+$rarray = \@array; 
+push ($rarray, 1, 2, 3); # Error: $rarray is a scalar, not an array.
+```
+
+```
+$rarray = \@array; 
+push ( @$rarray , 1, 2, 3); # OK, since one explicits it as an array.
+```
+
 ### subroutine
 #### define a subroutine
 To define a subroutine, use `sub` keyword, followed by subroutine name, then followed by a wrapped by `{}` with name body.
@@ -2630,7 +2825,6 @@ where
 <subroutineName> := {identifier}
 <subroutineBody> := {expression}+
 ```
-
 
 #### call a subroutine
 
@@ -2698,7 +2892,7 @@ Hi, this is the first subroutine
 Hi, this is the first subroutine
 ```
 
-#### subroutine with arguments
+#### call a subroutine by passing a value
 
 + Example 1:
 
@@ -2722,6 +2916,27 @@ will output
 
 ```
 55
+```
+
+#### call a subroutine by passing a reference
+
++ Example 1:
+
+```
+use warnings;
+use strict;
+
+@array1 = (1, 2, 3);
+@array2 = (4, 5, 6, 7);
+addArrays (\@array1, \@array2); # Passing the arrays by reference.
+print "@array1 \n";
+sub addArrays {
+        my ($rarray1, $rarray2) = @_;
+        $len2 = @$rarray2;  # Length of array2
+        for ($i = 0 ; $i  < $len2 ;  $i++) {
+            $rarray1->[$i] += $rarray2->[$i];   
+        }
+}
 ```
 
 #### return a value in subroutine

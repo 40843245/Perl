@@ -3308,8 +3308,122 @@ reverse sort ...
 ```
 
 ### file handling
+#### opening file
++ Example 1:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my $filename = 'c:\temp\test.txt';
+
+open(FH, '<', $filename) or die $!;
+
+print("File $filename opened successfully!\n");
+
+close(FH);
+```
+
+will output
+
+```
+No such file or directory at CH16/ex16_1_1.pl line 7.
+```
+
+#### reading file
+
++ Example 1:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my $filename = 'C:\Users\40843\OneDrive\桌面\Perl\ex\CH16\test.txt';
+
+open(FH, '<', $filename) or die $!;
+
+while(<FH>){
+   print $_;
+}
+
+close(FH);
+```
+
+will output
+
+```
+No such file or directory at CH16/ex16_2_1.pl line 7.
+```
+
+### file test
+
++ Example 1:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my $filename = shift @ARGV;
+if(-e $filename){
+   print("File $filename exists\n");
+}else{
+   print("File $filename does not exists\n");
+}
+```
+
+> [!TIP]
+> Whenever you use the file test operator, Perl will make a new call of stat(), which can be expensive
+>
+> However, Perl stores the result from the last stat() call to a special filehandle named `_`,
+>
+> so the subsequent file test operators can use the result that stores in the `_` filehandle.
+
++ Example 2:
+
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my $filename = shift @ARGV;
+if(-e $filename && -f _ && -r _ ){
+   print("File $filename exists and readable\n");	
+}else{
+   print("File $filename does not exists or is NOT readable\n");
+}
+```
 
 
+The following list illustrates the most important Perl file test operators:
+
+- \-r: check if the file is readable
+- \-w: check if the file is writable
+- \-x: check if the file is executable
+- \-o: check if the file is owned by effective uid.
+- \-R: check if file is readable
+- \-W: check if file is writable
+- \-X: check if file is executable
+- \-O: check if the file is owned by real uid.
+- \-e: check if the file exists.
+- \-z: check if the file is empty.
+- \-s: check if the file has nonzero size (returns size in bytes).
+- \-f: check if the file is a plain file.
+- \-d: check if the file is a directory.
+- \-l: check if the file is a symbolic link.
+- \-p: check if the file is a named pipe (FIFO): or Filehandle is a pipe.
+- \-S: check if the file is a socket.
+- \-b: check if the file is a block special file.
+- \-c: check if the file is a character special file.
+- \-t: check if the file handle is opened to a tty.
+- \-u: check if the file has setuid bit set.
+- \-g: check if the file has setgid bit set.
+- \-k: check if the file has sticky bit set.
+- \-T: check if the file is an ASCII text file (heuristic guess).
+- \-B: check if the file is a “binary” file (opposite of -T).
+  
 ### [Perl DBI(Database Independent) module](https://www.perltutorial.org/perl-dbi/)
 To use Perl DBI module, please follow these steps.
 

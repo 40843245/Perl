@@ -3123,7 +3123,7 @@ will output
 after calling subroutine a = 1, b = 2 
 ```
 
-+ Example 5:
++ Example 2:
 
 ```
 #!/usr/bin/perl
@@ -3150,7 +3150,9 @@ will output
 after calling subroutine a = 10, b = 20
 ```
 
-+ Example 6:
+#### access the reference of passed value in subroutine
+
++ Example 1:
 
 ```
 #!/usr/bin/perl

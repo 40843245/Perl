@@ -684,7 +684,6 @@ First, it access the value of variable whose name is `x`. Then it plus `5`. Fina
 >
 > If you read the above text carefully, then the second style is NOT applied to those for **ZERO** parameters.
 
-
 ### comment
 #### single line comment
 A single line comment must start with `#`.
@@ -2494,6 +2493,44 @@ will output
 a is 0
 ```
 
+##### given
+The `given-when` in Perl behaves similar to `switch-case` with `break` statement after each `case` block in C.
+
+Compare the form of `given-when` in Perl with that of `switch-case` in C and take care of the details between them.
+
+- First form:
+
+```
+given(<mainExpression>){
+	when(<constant1>){<body1>}
+	when(<constant2>){<body2>}
+	when(<constant3>){<body3>}
+	# and so on
+	default{
+		<defaultBody>
+	}	
+}
+```
+
+is equivalent to 
+
+```
+switch(<mainExpression>){
+	case <constant1>: <body1> break;
+	case <constant2>: <body2> break;
+	case <constant3>: <body3> break;
+	# and so on
+	default: <defaultBody> break;
+}
+```
+
+in C/C++.
+
+> [!CAUTION]
+> For C/C++ programmers, watch out these details.
+> + `<mainExpression>` can be an integer or enum.
+> + The value of `case` must be a constant and an integer.
+> + The statement `break;` is optional, however, there are different meanings. If there is NO statement `break;`, then it will NOT break the `switch`block  (i.e. it will continue to execute the `switch` block).
 ### mode
 #### strict mode
 

@@ -3644,7 +3644,62 @@ will output
 No such file or directory at CH16/ex16_2_1.pl line 7.
 ```
 
-### file test
+#### write file
+
++ Example 1:
+  
+```
+
+use warnings;
+use strict;
+
+my $str = <<END;
+This is the sample text
+that is used to write to file
+END
+
+my $filename = 'c:\temp\test3.txt';
+
+open(FH, '>', $filename) or die $!;
+
+print FH $str;
+
+close(FH);
+
+print "Writing to file successfully!\n";
+```
+
+#### copy file
+
++ Example 1:
+  
+```
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my $src = shift @ARGV;
+my $des = shift @ARGV;
+
+# open source file for reading
+open(SRC,'<',$src) or die $!;
+
+# open destination file for writing
+open(DES,'>',$des) or die $!;
+
+print("copying content from $src to $des\n");
+
+while(<SRC>){
+   print DES $_;	
+}
+
+# always close the filehandles
+close(SRC);
+close(DES);
+
+print "File content copied successfully!\n";
+```
+#### file test
 
 + Example 1:
 

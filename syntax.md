@@ -2276,7 +2276,7 @@ In this example, it will output
 10
 ```
 
-##### if else
+###### if else
 Like `if-else` in C. If `<condition>` is evaluated to true., `<body1>` which is in `if` block will be executed. Otherwise, `<body2>` which is in `else` block will be executed.
 
 + First form:
@@ -2317,7 +2317,7 @@ if(<condition>){
 >
 > and will throw error.
 
-##### if-elsif
+###### if-elsif
 Image that one puts another `if` in one `if-else` where `<body2>` in `else` DOES wrapped with curly bracket `{}`. This form is made.
 
 + First form:
@@ -2384,6 +2384,116 @@ will output
 5==5
 ```
 
+##### unless
+In Perl, `unless` has the opposite meaning to `if`.
+
+- First form:
+
+Iff the `<condition>` is evaluated to false, the `<body>` block will be executed.
+  
+```
+unless(<condition>){
+   <body>
+}
+```
+
++ Example 1:
+
+```
+my $a = 10;
+
+unless($a <= 0){
+   print("a is greater than 0\n");	                   
+}
+```
+
+will output
+
+```
+a is greater than 0
+```
+
+> [!TIP]
+> Like shorthand of `if` in Perl. If the `<body>` block will consist of one statement, then it can be shorthanded as second form.
+
+- Second form:
+
+Iff `<condition>` is evaluated as false, the `<statement>` statement will be executed.
+```
+<statement> unless <condition>;
+```
+
++ Example 2:
+
+It is equivalent to Example 1.
+
+```
+my $a = 10;
+
+print("a is greater than 0\n") unless($a<=0);
+```
+
+will output
+
+```
+a is greater than 0
+```
+
+> [!TIP]
+> You can think they are equivalent.
+>
+> ```
+> unless(<condition>)
+> ```
+>
+> ```
+> if(not (<condition>))
+> ```
+
+###### unless else
+Like `if else` in Perl. The usage are same.
+
++ Example 1:
+
+```
+my $a = -1;
+
+unless($a <= 0){
+   print("a is greater than 0\n");	                   
+}else{
+   print("a is less than or equal to 0\n");
+}
+```
+
+will output
+
+```
+a is less than or equal to 0
+```
+
+###### unless elsif
+Like `if elsif` in Perl. The usage are same.
+
++ Example 1:
+
+```
+my $a = 0;
+
+unless($a <= 0){
+   print("a is greater than 0\n");	                   
+}elsif($a == 0){
+   print("a is 0\n");
+}else{
+   print("a is less than 0\n");
+}
+```
+
+will output
+
+```
+a is 0
+```
+
 ### mode
 #### strict mode
 
@@ -2410,7 +2520,6 @@ For more information, see [warnings handling in Perl](https://www.geeksforgeeks.
 
 > [!WARNING]
 >  The `warnings` pragma (such as `use warnings;`) was introduced in Perl 5.6 .
-
 
 ### re (regular expression)
 

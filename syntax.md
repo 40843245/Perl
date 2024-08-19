@@ -2213,12 +2213,12 @@ if(<condition>){
 }
 ```
 
-> [!IMPORTANT]
-> Like it in C. If the block is omitted. Only the first statement after `if(...)` will be considered as in `<body>` block.
+> [!CAUTION]
+> DON'T like it in C.
 >
-> Thus, in this case, if `<condition>` is evaluated to false, then the first statement `if(...)` will **NOT** be executed.
+> In Perl, the `{}` can NOT be omitted even if there is only one statement.
 >
-> Consider the following example,
+> Consider the following example.
 >
 > ```
 > if(false) 
@@ -2226,7 +2226,7 @@ if(<condition>){
 > print("It will be always executed.");
 > ```
 >
-> is equivalent to
+> is NOT equivalent to
 >
 > ```
 > if(false){ 
@@ -2234,15 +2234,17 @@ if(<condition>){
 > }
 > print("It will be always executed.");
 > ```
+>
+> and it will throw error.
 
 + Second form: if there is only one expression as body, one can use this shorthand form.
 ```
-<expression> if <condition> 
+<expression> if <condition>;
 ```
 
-In second form, if `<condition>` is true, it will return `<expression>`. 
+In second form, if `<condition>` is true, it will execute `<expression>`. 
 
-Otherwise, it will return `undef`.
+Otherwise, it will NOT execute `undef`.
 
 The most commonly used example as follows.
 
@@ -2274,7 +2276,7 @@ In this example, it will output
 10
 ```
 
-##### if-else
+##### if else
 Like `if-else` in C. If `<condition>` is evaluated to true., `<body1>` which is in `if` block will be executed. Otherwise, `<body2>` which is in `else` block will be executed.
 
 + First form:
@@ -2286,12 +2288,12 @@ if(<condition>){
 }
 ```
 
-> [!IMPORTANT]
+> [!CAUTION]
 > The above concepts can be applied to here.
 > 
-> Like it in C. If the block is omitted. Only the first statement after `if(...)` will be considered as in `<body1>` block. And is also for `<body2>` block in `else`.
+> DON'T like it in C. The `{}` can NOT be omitted.
 >
-> Consider the following example,
+> Consider the following example.
 >
 > ```
 > if(false) 
@@ -2301,7 +2303,7 @@ if(<condition>){
 > print("It is NOT in if-else.");
 > ```
 >
-> is equivalent to
+> is NOT equivalent to
 >
 > ```
 > if(false) {
@@ -2312,17 +2314,21 @@ if(<condition>){
 > }
 > print("It is NOT in if-else.");
 > ```
+>
+> and will throw error.
 
-##### if-else-if
-Image that one puts another `if` in one `if-else` where `<body2>` in `else` does NOT wrapped with curly bracket `{}`. This form is made.
+##### if-elsif
+Image that one puts another `if` in one `if-else` where `<body2>` in `else` DOES wrapped with curly bracket `{}`. This form is made.
 
 + First form:
   
 ```
 if(<condition1>){
 	<body1>
-}else if(<condition2>){
-	<body2>
+}else {
+	if(<condition2>){
+		<body2>
+	}
 }
 ```
 
@@ -2331,14 +2337,12 @@ this is another form.
 ```
 if(<condition1>){
 	<body1>
-}else{
-	if(<condition2>){
-		<body2>
-	}
+}elsif(<condition>){
+	<body2>
 }
 ```
 
-We can also use mutliple nested `if-else` statement.
+We can also use mutliple nested `if-elsif` statement.
 
 ### mode
 #### strict mode

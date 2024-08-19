@@ -1825,6 +1825,12 @@ will throw a runtime error in ideone[^1].
 
 ##### while
 
+- First form: Like that in C.
+
+```
+while(<condition>){<body>}
+```
+
 + Example 1:
 
 ```
@@ -1869,6 +1875,7 @@ Happy New Year!
 + Example 2:
 
 The following code
+
 ```
 #!/usr/bin/perl
 use warnings;
@@ -1907,6 +1914,15 @@ in VSC with Perl plugin.
 > [!NOTE]
 > There are another way to express the `while` loop.
 
+- Second form: if there are only one expression, one can put the expression (NOT including `;` at the front the keyword `while`). See the following example.
+
+> [!CAUTION]
+> It is NOT similar to C. In C, there are no this form.
+
+```
+<expression> while(<condition>);
+```
+
 + Example 3:
 
 ```
@@ -1927,6 +1943,14 @@ will output
 2
 1
 ```
+
+**NOT** output
+
+```
+5
+```
+
+then get stuck.
 
 ##### do while 
 

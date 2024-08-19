@@ -2342,7 +2342,47 @@ if(<condition1>){
 }
 ```
 
-We can also use mutliple nested `if-elsif` statement.
++ Example 3:
+
+```
+$x=5;
+
+if ($x<5){
+	print "$x<5.\n";
+}elsif($x==5){
+	print "$x==5.\n";
+}
+```
+
+will output
+
+```
+5==5
+```
+
+We can also use mutliple `if-elsif` in Perl.
+
+We can also add `else` after `if-elsif` in Perl.
+
++ Example 4:
+
+```
+$x=5;
+
+if ($x<5){
+	print "$x<5.\n";
+}elsif($x==5){
+	print "$x==5.\n";
+}else{
+	print "$x>5.\n";
+}
+```
+
+will output
+
+```
+5==5
+```
 
 ### mode
 #### strict mode

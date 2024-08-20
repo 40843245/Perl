@@ -3623,6 +3623,21 @@ sub addArrays {
 <!-- TOC --><a name="return-a-value-in-subroutine"></a>
 #### return a value in subroutine
 
+> [!IMPORTANT]
+> To return an expression, use `return` keyword
+>
+> The syntax is similar to that in C.
+> 
+> ```
+> return <expression>;
+> ```
+>
+> But different than that in C.
+>
+> If the `return` statement is the last statement of a subroutine or a package, then the `return` keyword can be omitted.
+>
+> See the following example.
+
 + Example 1:
   
 ```

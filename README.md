@@ -18,7 +18,4 @@ About re (regular expression) which used in syntax.md, see [re.md](https://githu
 See [reference.md](https://github.com/40843245/Perl/blob/main/reference/reference.md)
 
 ## templates
-See [templates,md](https://github.com/40843245/Perl/blob/main/templates.md)
-
-
-
+See [templates.md](https://github.com/40843245/Perl/blob/main/templates.md)

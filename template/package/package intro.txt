@@ -1,0 +1,8 @@
+=begin
+  package name: <packageName>
+  package intro: <packageIntro>
+  expected number of subroutines in package: <subroutinesInPackageLength>
+  expected subroutine in package: 
+    1. <subroutine1Name>
+    2. <subroutine2Name>
+=cut

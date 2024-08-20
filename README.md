@@ -14,6 +14,9 @@ See [syntax.md](https://github.com/40843245/Perl/blob/main/syntax.md)
 ## re
 About re (regular expression) which used in syntax.md, see [re.md](https://github.com/40843245/Perl/blob/main/re.md)
 
+## how to
+About more useful but more advanced operations about Perl, see [how to.md](https://github.com/40843245/Perl/blob/main/how%20to/how%20to.md)
+
 ## reference
 See [reference.md](https://github.com/40843245/Perl/blob/main/reference/reference.md)
 

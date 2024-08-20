@@ -4,9 +4,9 @@
   expected subroutine paras length: <subroutineParasLength>
   expected subroutine paras:
     1. <subroutinePara1Name>: It should be <subroutinePara1Type> type. <subroutinePara1Intro>
-    2. <subroutinePara1Name>: It should be <subroutinePara1Type> type. <subroutinePara1Intro>
+    2. <subroutinePara2Name>: It should be <subroutinePara2Type> type. <subroutinePara2Intro>
   expected returned value length: <subroutineReturnedValueLength>
   expected returned value:
-    1. <subroutineReturnedValue1Name>: It should be <subroutineReturnedValue1Type> type. <subroutineReturnedValue1Into>
-    2. <subroutineReturnedValue1Name>: It should be <subroutineReturnedValue1Type> type. <subroutineReturnedValue1Into>
+    1. <subroutineReturnedValue1Name>: It should be <subroutineReturnedValue1Type> type. <subroutineReturnedValue1Intro>
+    2. <subroutineReturnedValue2Name>: It should be <subroutineReturnedValue2Type> type. <subroutineReturnedValue2Intro>
 =cut

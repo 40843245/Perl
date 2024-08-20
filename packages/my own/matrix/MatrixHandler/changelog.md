@@ -20,8 +20,18 @@ Provide these functionalities.
 + add two matrice.
 
 ### v0.0.1
+#### basic info
+date and time: 2024/08/20 21:02 p.m.
+description: The first version. Just correct these comments.
 
-...
+> [!CAUTION]
+> Do NOT use this version since there are unknown runtime errors. (P.S. the logic of these functionalities are fine.)
+>
+> If one can fix these problems, the developer will appreciate it.
+
+#### content
+Correct these comments.
+
 
 ### v0.0.2
 

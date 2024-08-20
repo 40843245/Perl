@@ -1,7 +1,7 @@
 =begin
   package name: MatrixHandler
   package intro: A handler for matrix operations.
-  expected number of subroutines in package: 3
+  expected number of subroutines in package: 4
   expected subroutine in package: 
     1. print_matrix
     2. input_one
@@ -49,7 +49,7 @@ sub print_matrix {
   expected subroutine paras length: 1
   expected subroutine paras:
     1.$matrixName: It should be a string. Indicates the name of the matrix.
-  expected returned value length: 
+  expected returned value length: 3
   expected returned value:
 	1. @matrixA: It should be array type. The matrix.
     2. $rowA: It should be a positive integer or -1. Return the row of the matrix in other case. If the size from given input can NOT make a matrix, then return -1.
@@ -153,7 +153,7 @@ sub input_two {
 	4. @matrixB: It should be array type. The second matrix.
     5. $rowB: It should be a positive integer. 
     6. $columnB: It should be a positive integer.
-  expected returned value length: 3
+  expected returned value length: 6
   expected returned value:
   	1.@Resultant: It should be array type. The resultant matrix after addition. See above  [`subroutine intro`](#subroutine-intro).
 	2.$rowA: It should be a positive integer or -1. The row of resultant matrix. See above  [`subroutine intro`](#subroutine-intro).

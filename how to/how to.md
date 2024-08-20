@@ -83,3 +83,49 @@ use lib File::Spec->catdir(
             'lib');
 ```
   
++ `Path::Tiny` subroutine - way 1.
+
+Use the following code snippets.
+
+```
+use Path::Tiny qw(path);
+use lib path($0)->absolute->parent(2)->child('lib')->stringify;
+```
+
++ `Path::Tiny` subroutine - way 2.
+
+Use the following code snippets.
+
+```
+use Path::Tiny qw(path);
+use lib path($0)->absolute->parent->sibling('lib')->stringify;
+```
+
++ `rlib` package.
+
+> [!CAUTION]
+> Watch out the version. The last release may be on 1998.
+
+Use the following code snippets.
+
+```
+use rlib '../lib';
+```
+
++ `FindBin::libs`
+
+`FindBin::libs` is a bit magical. 
+
+By default, it looks around the location of the currently running script, finds the lib directory and adds it to `@INC`. 
+
+You only need to load the module as the following code snippets.
+
+```
+use FindBin::libs;
+```
+
+#### Ref
+[How to add a relative directory to @INC](https://perlmaven.com/how-to-add-a-relative-directory-to-inc)
+```
+use rlib '../lib';
+```

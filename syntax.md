@@ -1769,7 +1769,85 @@ sub interval_conflicts {
 
 Note that all knowledge of the internal representation of a time interval is encapsulated in functions with the prefix `interval_` . These functions thus encapsulate an _abstract data type_ called "interval." When we study modules and objects in later chapters, we will learn ways of organizing such pieces of code into reusable entities.
 ```
-  
+
+##### table in database with hash
+
++ Example 1:
+
+Consider the following data.
+
+```
+1995:Actor:Nicholas Cage
+1995:Picture:Braveheart
+1995:Supporting Actor:Kevin Spacey
+1994:Actor:Tom Hanks
+1994:Picture:Forrest Gump
+1928:Picture:WINGS
+```
+
+To see above data in real historical in databases for the Oscars, look at [Oscars](http://oscars.guide.com/)
+
+The data structure of above data as follows.
+
+![image](https://github.com/user-attachments/assets/6958481c-cab5-45ad-953a-ad2f6f4cf746)
+
+The following code reads the data from `oscar.txt` , considered one line as one record and insert each record into the hash `category_index` and `year_index` to simulate a table in database.
+
+```
+open (F, "oscar.txt") || die "Could not open database: $:";
+%category_index = ();
+%year_index = ();
+while ($line = <F>) {
+		chomp $line;
+		($year, $category, $name) = split (/:/, $line);
+		create_entry($year, $category, $name) if $name;
+}
+
+# create_entry (year, category, name)
+sub create_entry { 
+	my($year, $category, $name) = @_; # Create an anonymous array for each entry
+	$rlEntry = [$year, $category, $name]; # Add this to the two indices
+	push (@{$year_index {$year}}, $rlEntry); # By Year
+	push (@{$category_index{$category}}, $rlEntry); # By Category
+}
+```
+
+To print all entries by a given year.
+
+```
+sub print_entries_for_year {
+	my($year) = @_; print ("Year : $year \n");
+	foreach $rlEntry (@{$year_index{$year}}) {
+		print ("\t",$rlEntry->[1], " : ",$rlEntry->[2], "\n");
+	}
+}
+```
+
+To print all entries sorted by year.
+
+```
+sub print_all_entries_for_year {
+	foreach $year (sort keys %year_index){
+		print_entries_for_year($year);
+	}
+}
+```
+
+To print a specific entry by given a year and category.
+
+```
+sub print_entry {
+    my($year, $category) = @_;
+    foreach $rlEntry (@{$year_index{$year}}) {
+        if ($rlEntry->[1] eq $category) {
+            print "$category ($year), ", $rlEntry->[2], "\n";
+            return;
+        }
+    }
+    print "No entry for $category ($year) \n";
+}
+```
+
 ##### view of a hash
 ![image](https://github.com/user-attachments/assets/6375ac2e-13cc-40ed-9752-d49f0f985ac0)
 

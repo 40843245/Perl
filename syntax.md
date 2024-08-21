@@ -1218,6 +1218,18 @@ wiil output
 ```
 [1][3][4]
 ```
+##### view of a list
+
+![image](https://github.com/user-attachments/assets/7bcaa953-461c-4406-9b44-412cfdddb2dd)
+
+Adding reference counts to all values.
+
+![image](https://github.com/user-attachments/assets/e6d8076f-e4af-40ee-ad37-aeb6ae6fd3b1)
+
+### referecing an element in a list
+
+![image](https://github.com/user-attachments/assets/5275f750-8d69-48ab-af4d-d0955b23b4c2)
+
 
 #### array
 ##### get number of elements in array
@@ -1295,6 +1307,8 @@ See the following example in [following section](#pop-up-the-last-element-in-arr
 
 ##### pop up the last element in array
 To pop up the last element in array, one can use `pop` function.
+
+![image](https://github.com/user-attachments/assets/7f4e2091-e423-487c-aafa-ad52dab11701)
 
 + Example 1:
 
@@ -1568,6 +1582,114 @@ The array contains:
 15
 27
 100
+```
+
+##### view of an array
+![image](https://github.com/user-attachments/assets/bda6f947-bbd7-47a5-ab6d-edb858beac2d)
+
+#### hash
+##### construct
+
++ Example 1:
+
+```
+%hash1 = {
+	key1 => "value1",
+	key2 => "value2"
+}
+```
+
+The variable `hash1` has two `key-value pair`. 
+
+|  `key-value pair` | `key` | `value`|
+| ----------------- | ----- | ------ |
+| `key1 => "value1"`| `key1` | `value1` |
+| `key2 => "value2"`| `key2` | `value2` |
+
+
+##### view of a hash
+![image](https://github.com/user-attachments/assets/6375ac2e-13cc-40ed-9752-d49f0f985ac0)
+
+### nested data type
+Consider the following example.
+
+Here, is the several variables with `hash` type.
+
+```
+%sue = ( # Parent
+'name' => 'Sue',
+'age' => '45'
+);
+
+%john = ( # Child
+'name' => 'John',
+'age' => '20'
+);
+
+%peggy = ( # Child
+'name' => 'Peggy',
+'age' => '16'
+);
+```
+
+Their relations can be represented as follows.
+
+```
+@children = (\%john, \%peggy);
+$sue{'children'} = \@children;
+```
+
+or
+
+```
+$sue{'children'} = \[\\%john, \\%peggy\];
+```
+
+![image](https://github.com/user-attachments/assets/32b9287c-8edb-4e90-818c-fa561adf3748)
+
+This is how you can print Peggy's age, given `%sue`:
+
+```
+print $sue{children}->[1]->{age};
+```
+
+#### implicit creation of complex structures
+
+Suppose the first line in your program is this.
+
+```
+$sue{children}->[1]->{age} = 10;
+```
+
+Perl automatically creates the hash `%sue` , gives it a hash element indexed by the string children , points that entry to a newly allocated array, whose second element is made to refer to a freshly allocated hash, which gets an entry indexed by the string age . Talk about programmer efficiency.
+
+> [!IMPORTANT]
+> You can omit `->` iff it is between subscripts.
+>
+> These are identical:
+>
+> ```
+> print $sue{children}->[1]->{age};
+> ```
+>
+> ```
+> print $sue{children}[1]{age};
+> ```
+
+```
+%sue = ( # Parent
+	'name' => 'Sue', 'age' => '45',
+	'children' => [ # Anon array of two hashes
+		{ # Anon hash 1
+			'name' => 'John',
+			'age' => '20'
+		},
+		{ # Anon hash 2
+			'name' => 'Peggy',
+			'age' => '16'
+		}
+	 		]
+	);
 ```
 
 ### repetitive loop and conditional statement
@@ -2798,8 +2920,41 @@ The 7 % 3 gets 1 which can be written as one.
 
 > [!CAUTION]
 > By default, Perl does NOT use strict mode. In non-strict mode, some errors will be thrown instead ignoring.
->
+
+> [!IMPORTANT]
 > Based on this, to ensure all errors that will be thrown, use `strict` mode at begin through the statement `use strict;`.
+>
+> ```
+> use strict;
+> ```
+
+> [!IMPORTANT]
+> To only make one functionalities to strict mode. use the `strict` keyword followed by the functionality.
+>
+> For example,
+>
+> To not to allow symbolic references in Perl.
+> 
+> ```
+> use strict 'refs'; # Tell Perl 
+> ```
+
+> [!IMPORTANT]
+> To disbale all restrictions, use `no strict` keywords.
+>
+> ```
+> no strict;
+> ```
+
+> [!IMPORTANT]
+> To disbale a restriction of functionality, use `no strict` keywords followed by the functionality.
+>
+> To allow symbolic references in Perl.
+> 
+> ```
+> no strict 'refs';
+> ```
+
 
 #### warnings mode
 > [!IMPORTANT]
@@ -3280,6 +3435,27 @@ push ($rarray, 1, 2, 3); # Error: $rarray is a scalar, not an array.
 ```
 $rarray = \@array; 
 push ( @$rarray , 1, 2, 3); # OK, since one explicits it as an array.
+```
+
+#### ref
+The `ref` keyword returns one of these strings to describe the data being referred to (i.e. it is a reference).
++ "SCALAR"
++ "HASH"
++ "ARRAY"
++ "REF" (referring to another reference variable)
++ "GLOB" (referring to a typeglob)
++ "CODE" (referring to a subroutine)
++ `"<packageName>"` (an object belonging to this package).
+
+or returns `false` iff it is NOT a reference.
+
+See the following example.
+
+```
+$a = 10;
+$ra = \$a;
+print(ref($a)) # yields FALSE, since $a is not a reference.
+print(ref($ra)) # returns the string "SCALAR", since $ra is pointing to a scalar value.
 ```
 
 ### subroutine

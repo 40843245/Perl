@@ -1606,9 +1606,174 @@ The variable `hash1` has two `key-value pair`.
 | `key1 => "value1"`| `key1` | `value1` |
 | `key2 => "value2"`| `key2` | `value2` |
 
+##### record
+According to the feature of hash, it is a good choice to manipluate records by `hash`.
 
+Consider these data structures.
+
++ `professor.dat`
+```
+#file: professor.dat
+
+id          : 42343                #Employee Id
+Name        : E.F.Schumacher
+Office Hours: Mon 3-4, Wed 8-9
+Courses     : HS201, SS343         #Course taught
+```
+
++ `student.dat`
+```
+#file: student.dat
+
+id          : 52003                 # Registration id
+Name        : Garibaldi
+Courses     : H301, H302, M201      # Courses taken
+```
+
++ `courses.dat`
+```
+#file: courses.dat
+
+id          : HS201
+Description : Small is beautiful
+Class Hours : Mon 2-4, Wed 9-10, Thu 4-5
+```
+
+To access a record with `id` = `42343`, use
+
+```
+$student{42343}
+```
+
+To insert or update a record where `id` = `42343` with `Name` as `Garibaldi` and `Course` is empty, use
+
+```
+$student{42343} = {
+			'Name' => 'Garibaldi',
+			'Courses' => [ ]
+};
+```
+
++ Example 1: About `professor.dat`
+
+```
+#### Example 2.3: Read professor.dat and Create Hierarchical Records in Memory
+
+my (%profs);  # prof_read_file() populates this data structure from file
+
+sub 
+prof_read_file
+ {
+    my ($filename) = @_;
+    my ($line, $curr\_prof);
+    open (F, $filename) || die "Could not open $filename";
+    while ($line = <F>) {
+        chomp($line);
+        next if $line =~ /^\s\*$/;       # skip blank lines
+        if ($line =~ /^id.\*:\s\*(.\*)/) {
+            # Use an anonymous hash to store a professor's data
+            $profs{$1} = $curr_prof = {};
+        } elsif ($line =~ /^Office Hours.\*:\s\*(.\*)/) {
+            # $1 contains a string like 'Mon 2-3, Tue 4-6'
+            $curr_prof->{Office Hours} = interval_parse($1);
+        } elsif ($line =~ /^Courses.\*:\s\*(.\*)/) {
+            # $1 contains something like 'HS201, MA101'
+            my (@courses_taught) =  split(/\[\s,\]+/, $1);
+            $curr_prof->{Courses} = \@courses_taught;
+        }
+    }
+}
+
+Notice that the courses_taught array is local to the block. When the block ends,$curr_prof->{Courses} continues to hang on to this array. You can omit one step like this:
+
+$curr_prof->{Courses} = \[split(/\[\\s,\]+/, $1)\];
+
+I prefer the earlier approach because it is more readable.
+
+The interval_parse method parses a string such as "Mon 3-5, Wed 2-6" into a bit string, as was mentioned earlier. The code looks like this:
+
+# Each hour in a week (with days from 7am to 7pm) gets its own
+# unique bit in an 8-byte string.
+# Mon 7-8 is the 0th bit, Mon 6-7pm is 11, ... Fri 6-7 (pm) is 60th.
+my %base\_hours = (
+   mon => 0, tue => 12, wed => 24 , thu => 36, fri => 48
+);
+sub 
+interval_parse
+ {
+    my ($interval_sequence) = @_; #contains "Mon 3-5, Tue 2-6"
+    my ($time_range) = "";
+    foreach $day\_hours (split /,/, $interval\_sequence) {
+       # $day\_hours contains "Mon 3-5" etc.
+       my ($day, $from, $to) = 
+           ($day\_hours =~ /(\[A-Za-z\]+).\*(\\d+)-(\\d+)/);
+       # if $from or $to is less than 7, it must be afternoon. Normalize
+       # it by adding 12. Then reduce it to a zero base by subtracting 7
+       # (that is, 7 hrs to 19 hrs becomes 0 - 12. Finally, 
+       # normalize each hour in a day with respect to weekly hours, 
+       # by adding in the day's "base hour"
+       $to = 19 if $to == 7;
+       $from += 12 if $from < 7 ;
+       $to += 12  if $to <= 7;
+       my $base = $base_hours{lc $day};
+       $from += $base - 7;
+       $to += $base - 7;
+       # At this point Tue 7a.m ==> 12 and Tue 4 p.m => 21
+       for ($i = $from; $i < $to;  $i++) {
+           # Set the corresponding bit
+           vec($time_range, $i, 1) = 1;
+       }
+    }
+    $time_range;
+}
+```
+
++ Example 2:
+
+```
+#### Example 2.4: Checking Constraints on a Professor's Time
+
+sub prof_check_constraints {
+    my ($prof) = @_;
+    my $r_prof = $profs{$prof};  # %profs created by prof\_read\_file
+    my $office_hours = $r_prof->{Office Hours};
+    my $rl_courses = $r_prof->{Courses}; 
+    for $i (0 .. $#{$rl_courses}) {
+       $course_hours = course_get_hours($rl_courses->[$i]);
+       if (interval_conflicts($office_hours, $course_hours)) {
+           print "Prof. ", $r_prof->{name},
+               " Office hours conflict with course $course_taught\n";
+       }
+       for $j ($i .. $#{$rl_courses}) {
+           my ($other_course_hours) = course_get_hours($rl_courses->[$j]);
+           if (interval_conflicts ($course_hours, $other_course_hours)) {
+               print "Prof. ", $r_prof->{name},
+                ": Course conflict: ", $rl_courses->[$i], " ",$rl_courses->[$j], "\n";
+       }
+    }
+}
+
+The subroutine `interval_conflicts` simply compares the two bitmaps, as shown below:
+
+sub interval_conflicts {
+    my ($t1, $t2) = @_;
+    my ($combined) = $t1 & $t2;
+    # $combined will have at least one bit set if there's a conflict
+    my $offset = length($combined) * 8;
+    # start counting down from last bit, and see if any is set
+    while (--$offset >= 0) {
+        return 1 if vec($combined,$offset,1);
+    }
+    return 0;
+}
+
+Note that all knowledge of the internal representation of a time interval is encapsulated in functions with the prefix `interval_` . These functions thus encapsulate an _abstract data type_ called "interval." When we study modules and objects in later chapters, we will learn ways of organizing such pieces of code into reusable entities.
+```
+  
 ##### view of a hash
 ![image](https://github.com/user-attachments/assets/6375ac2e-13cc-40ed-9752-d49f0f985ac0)
+
+![image](https://github.com/user-attachments/assets/b7f1ed34-8c96-4fcd-9105-70d182a67273)
 
 ### nested data type
 Consider the following example.

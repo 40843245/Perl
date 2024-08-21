@@ -7,3 +7,6 @@
 ## furthur reading
 To learn more about syntax in Perl, or introduction of Perl etc. Visit [Perl resource](https://www.perltutorial.org/perl-resources/).
 
+To learn the Perl docs, see [perlref (Perl documentation)](https://perldoc.perl.org/perlref)
+
+
